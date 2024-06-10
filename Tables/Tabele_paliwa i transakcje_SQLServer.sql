@@ -1,59 +1,138 @@
-CREATE DATABASE StacjaPaliw;
+ï»¿CREATE DATABASE StacjaPaliw;
 go
 
 use StacjaPaliw;
 GO
 
-CREATE TABLE Typ_Paliwa --?
+CREATE TABLE Typ_Paliwa
 (
-	ID_typu INT,
+	ID_typu INT IDENTITY(1,1),
 	nazwa_paliwa varchar(20),
 	CONSTRAINT PK_typ_paliwa PRIMARY KEY (ID_typu)
 );
 
 INSERT INTO Typ_Paliwa VALUES 
-(1,'benzyna 95'), 
-(2,'benzyna 98'), 
-(3,'standard diesel'), 
-(4,'premium diesel'), 
-(5,'LPG'),
-(6,'Add Blue')
+('benzyna 95'), 
+('benzyna 98'), 
+('standard diesel'), 
+('premium diesel'), 
+('LPG'),
+('Add Blue')
 
 CREATE TABLE Historia_cen_paliw
 (
-	ID_ceny INT,
+	ID_ceny INT IDENTITY(1,1),
+	ID_typu INT,
 	data_ceny DATETIME,
 	cena SMALLMONEY,
-	CONSTRAINT PK_Ceny PRIMARY KEY (ID_ceny)
+	CONSTRAINT PK_Ceny PRIMARY KEY (ID_ceny),
+	CONSTRAINT FK_CenaXTyp FOREIGN KEY (ID_typu) REFERENCES Typ_Paliwa(ID_typu)
 );
+
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,'2024-01-15 10:45:30',6.23);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,'2024-02-28 14:22:10',6.48);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,'2024-03-10 09:15:55',6.35);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,'2024-04-21 18:05:42',6.57);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,'2024-05-30 11:30:25',6.44);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,'2024-06-14 16:18:07',6.51);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,'2024-07-19 13:55:12',6.29);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,'2024-08-22 07:50:38',6.38);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,'2024-09-03 21:35:45',6.60);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,'2024-10-27 19:42:21',6.22);
+
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(2,'2024-01-20 10:34:56',7.01);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(2,'2024-02-14 15:47:23',7.15);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(2,'2024-03-05 09:11:45',7.22);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(2,'2024-04-17 13:25:36',7.07);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(2,'2024-05-11 18:54:09',7.28);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(2,'2024-06-23 07:38:42',6.99);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(2,'2024-07-29 22:12:31',7.13);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(2,'2024-08-16 16:45:55',7.21);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(2,'2024-09-05 12:50:14',7.05);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(2,'2024-10-30 20:22:07',7.17);
+
+
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(3,'2024-01-12 08:14:22',6.52);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(3,'2024-02-25 17:45:33',6.73);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(3,'2024-03-30 11:24:45',6.67);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(3,'2024-04-18 14:56:08',6.59);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(3,'2024-05-22 19:30:21',6.76);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(3,'2024-06-10 07:22:14',6.68);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(3,'2024-07-15 22:18:37',6.70);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(3,'2024-08-19 15:45:29',6.57);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(3,'2024-09-27 12:35:50',6.62);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(3,'2024-10-05 18:42:11',6.75);
+
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(4,'2024-01-10 11:23:45',6.84);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(4,'2024-02-25 14:35:22',6.97);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(4,'2024-03-18 08:50:11',6.89);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(4,'2024-04-13 17:22:34',6.94);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(4,'2024-05-29 21:30:45',7.01);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(4,'2024-06-05 19:45:57',6.85);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(4,'2024-07-08 13:40:20',6.92);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(4,'2024-08-20 09:15:40',6.88);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(4,'2024-09-27 11:25:18',6.98);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(4,'2024-10-14 15:55:05',7.00);
+
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(5,'2024-01-22 09:14:23',2.75);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(5,'2024-02-16 12:45:32',2.89);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(5,'2024-03-07 16:30:45',2.64);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(5,'2024-04-11 14:22:55',2.95);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(5,'2024-05-15 20:30:12',2.72);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(5,'2024-06-29 06:14:38',2.80);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(5,'2024-07-21 19:50:27',2.91);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(5,'2024-08-08 13:35:09',2.67);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(5,'2024-09-14 17:42:18',2.98);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(5,'2024-10-20 11:25:34',2.83);
+
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(6,'2024-01-13 08:24:15',3.45);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(6,'2024-02-22 14:35:40',3.60);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(6,'2024-03-18 09:10:22',3.33);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(6,'2024-04-05 18:25:48',3.82);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(6,'2024-05-12 12:14:55',3.54);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(6,'2024-06-28 21:45:19',3.70);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(6,'2024-07-17 15:30:43',3.48);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(6,'2024-08-21 11:25:30',3.66);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(6,'2024-09-30 13:55:52',3.29);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(6,'2024-10-25 19:14:11',3.75);
+
+-- paliwo maj i czerwiec
+--SELECT * FROM Historia_cen_paliw
+--WHERE data_ceny BETWEEN '2024-05-01' AND '2024-06-10'
+
 
 CREATE TABLE Paliwa
 (
-	ID_paliwa INT,
-	ID_typu INT,
+	ID_paliwa INT IDENTITY(1,1),
 	ID_ceny INT,
-	nazwa VARCHAR(30),
-	ilosc_w_litrach NUMERIC(5,2),
-	maksymalna_ilosc NUMERIC(5,2),
-	ilosc_punktow INT,
+	ilosc_w_litrach INT,
+	maksymalna_ilosc INT,
+	ilosc_punktow INT, --iloÅ›Ä‡ punktÃ³w za litr
 	CONSTRAINT PK_Paliwa PRIMARY KEY (ID_paliwa),
-	CONSTRAINT FK_PaliwoXTyp FOREIGN KEY (ID_typu) REFERENCES Typ_Paliwa(ID_typu),
 	CONSTRAINT FK_PaliwoXCenaPaliwa FOREIGN KEY (ID_ceny) REFERENCES Historia_cen_paliw(ID_ceny)
 );
+INSERT INTO Paliwa(ID_ceny,ilosc_w_litrach,maksymalna_ilosc,ilosc_punktow) VALUES
+(5,550,1200,4), -- benzyna 95
+(15,390,500,7), -- benzyna 98
+(25,480,1000,3), -- standard diesel
+(36,320,400,7), -- premium diesel
+(45,740,1200,2), -- LPG
+(55,120,400,1) -- adBlue
+
 
 CREATE TABLE Transakcje_paliwowe
 (
 	ID_transakcji INT,
 	ID_klienta INT,
-	ID_typu_paliwa INT,
+	ID_paliwa INT,
 	kwota_transakcji SMALLMONEY,
 	data_transakcji DATETIME,
 	ilosc_paliwa NUMERIC(5,2),
 	CONSTRAINT PK_Transakcje_paliwowe PRIMARY KEY (ID_transakcji),
-	CONSTRAINT FK_Transakcja_paliwoXTyp FOREIGN KEY (ID_typu_paliwa) REFERENCES Typ_Paliwa(ID_typu),
-	--CONSTRAINT FK_Transakcja_paliwowaXKlient FOREIGN KEY (ID_klienta) REFERENCES [*œcie¿ka do tabeli w oracle*](ID_klienta)
+	CONSTRAINT FK_Transakcja_paliwoXPaliwo FOREIGN KEY (ID_paliwa) REFERENCES Paliwa(ID_paliwa),
+	--CONSTRAINT FK_Transakcja_paliwowaXKlient FOREIGN KEY (ID_klienta) REFERENCES [*Å“cieÂ¿ka do tabeli w oracle*](ID_klienta)
 	
-	--Iloœc punktów przyznawanych za transakcjê w Triggerze / procedurze (liczona na podstawie kwoty / iloœci zatankowanego paliwa)
+	--IloÅ“c punktÃ³w przyznawanych za transakcjÃª w Triggerze / procedurze (liczona na podstawie kwoty / iloÅ“ci zatankowanego paliwa)
 	
 );
 
@@ -66,19 +145,19 @@ CREATE TABLE Transakcje_spozywcze
 	data_transakcji DATETIME,
 	ilosc INT,
 	CONSTRAINT PK_Transakcje_Spozywcze PRIMARY KEY (ID_transakcji),
-	--CONSTRAINT FK_Transakcja_paliwowaXKlient FOREIGN KEY (ID_klienta) REFERENCES [*œcie¿ka do tabeli w oracle*](ID_klienta),
-	--CONSTRAINT FK_Transakcja_paliwowaXProdukt FOREIGN KEY (ID_produktu) REFERENCES [*œcie¿ka do tabeli w oracle*](ID_produktu)
+	--CONSTRAINT FK_Transakcja_paliwowaXKlient FOREIGN KEY (ID_klienta) REFERENCES [*Å“cieÂ¿ka do tabeli w oracle*](ID_klienta),
+	--CONSTRAINT FK_Transakcja_paliwowaXProdukt FOREIGN KEY (ID_produktu) REFERENCES [*Å“cieÂ¿ka do tabeli w oracle*](ID_produktu)
 
-	--Iloœc punktów przyznawanych za transakcjê w Triggerze / procedurze (liczona na podstawie kwoty / typu produktu)
+	--IloÅ“c punktÃ³w przyznawanych za transakcjÃª w Triggerze / procedurze (liczona na podstawie kwoty / typu produktu)
 );
 
 CREATE TABLE Harmonogram
 (
 	ID_wpisu INT,
 	ID_pracownika INT,
-	data_rozpoczêcia_zmiany DATETIME,
-	data_zakoñczenia_zmiany DATETIME,
-	-- mo¿naby zrobiæ procedurê licz¹c¹ wynagrodzenie pracowniowi za dan¹ zmianê
+	data_rozpoczÃªcia_zmiany DATETIME,
+	data_zakoÃ±czenia_zmiany DATETIME,
+	-- moÂ¿naby zrobiÃ¦ procedurÃª liczÂ¹cÂ¹ wynagrodzenie pracowniowi za danÂ¹ zmianÃª
 	CONSTRAINT PK_Harmonogram PRIMARY KEY (ID_wpisu),
-	--CONSTRAINT FK_HarmonogramXPracownik FOREIGN KEY (ID_pracownika) REFERENCES [*œcie¿ka do tabeli excela*](ID_pracownika),
+	--CONSTRAINT FK_HarmonogramXPracownik FOREIGN KEY (ID_pracownika) REFERENCES [*Å“cieÂ¿ka do tabeli excela*](ID_pracownika),
 );

@@ -1,25 +1,38 @@
 
 CREATE TABLE Dostawcy_Paliwowi
 (
-	ID_dostawcy INTEGER,
+	ID_dostawcy INTEGER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
 	nazwa VARCHAR(40),
 	kraj VARCHAR(20),
 	CONSTRAINT PK_Dostawcy_Paliwowi PRIMARY KEY(ID_dostawcy)
 );
 COMMIT;
+INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Rafineria w Plocku','Polska');
+INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Rafineria w Litvinowie','Czechy');
+INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Rafineria w Kralupach nad Vltavou','Czechy');
+INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Rafineria w Mozejkach','Litwa');
 
 CREATE TABLE Dostawcy_Spozywczy
 (
-	ID_dostawcy INTEGER,
+	ID_dostawcy INTEGER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
 	nazwa VARCHAR(40),
 	kraj VARCHAR(20),
 	CONSTRAINT PK_Dostawcy_Spozywczy PRIMARY KEY(ID_dostawcy)
 );
 COMMIT;
+INSERT INTO Dostawcy_Spozywczy(nazwa,kraj) VALUES('WML','Polska');
+INSERT INTO Dostawcy_Spozywczy(nazwa,kraj) VALUES('Nowel','Polska'); --pieczywo mrozone
+INSERT INTO Dostawcy_Spozywczy(nazwa,kraj) VALUES('Stokson','Polska'); --piekarnia
+INSERT INTO Dostawcy_Spozywczy(nazwa,kraj) VALUES('Bracia Sadownicy','Polska'); --produkty owocowe (musy, soki etc._
+INSERT INTO Dostawcy_Spozywczy(nazwa,kraj) VALUES('Zaklady Miesne Stanislawow','Polska'); --wêdliny, kielbasy parowki etc.
+INSERT INTO Dostawcy_Spozywczy(nazwa,kraj) VALUES('Milka','Szwajcaria'); --goraca czekolada
+INSERT INTO Dostawcy_Spozywczy(nazwa,kraj) VALUES('VERVA','Polska'); --doczytaæ kto odpowiedzialny za produkcjê.
+INSERT INTO Dostawcy_Spozywczy(nazwa,kraj) VALUES('Stop Cafe','Polska'); --doczytaæ kto odpowiedzialny za produkcjê.
+INSERT INTO Dostawcy_Spozywczy(nazwa,kraj) VALUES('Moje Auto','Polska'); --akcesoria samochodowe
 
 CREATE TABLE Produkty_spozywcze
 (
-	ID_produktu INTEGER,
+	ID_produktu INTEGER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
 	nazwa VARCHAR(40),
 	ilosc_na_stanie INTEGER,
 	cena_jednostkowa NUMBER(5,2),
@@ -27,6 +40,14 @@ CREATE TABLE Produkty_spozywcze
 	CONSTRAINT PK_Produkty PRIMARY KEY(ID_produktu)
 );
 COMMIT;
+INSERT INTO Produkty_spozywcze(nazwa,ilosc_na_stanie,cena_jednostkowa,ilosc_punktow)
+    VALUES('hot-dog maly',20,8.99,100)
+INSERT INTO Produkty_spozywcze(nazwa,ilosc_na_stanie,cena_jednostkowa,ilosc_punktow)
+    VALUES('hot-dog duzy',15,12.99,120)
+INSERT INTO Produkty_spozywcze(nazwa,ilosc_na_stanie,cena_jednostkowa,ilosc_punktow)
+    VALUES('gasnica',10,,100)
+INSERT INTO Produkty_spozywcze(nazwa,ilosc_na_stanie,cena_jednostkowa,ilosc_punktow)
+    VALUES('hot-dog maly',20,8.99,100)    
 
 
 CREATE TABLE Typ_Paliwa

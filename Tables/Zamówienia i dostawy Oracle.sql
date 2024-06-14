@@ -12,6 +12,8 @@ INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Rafineria w Plocku','Polska');
 INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Rafineria w Litvinowie','Czechy');
 INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Rafineria w Kralupach nad Vltavou','Czechy');
 INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Rafineria w Mozejkach','Litwa');
+INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('PGNiG S.A.','Polska');
+INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Yara International ASA','Norwegia');
 COMMIT;
 
 CREATE TABLE Dostawcy_Spozywczy
@@ -239,11 +241,11 @@ CREATE TABLE Paliwa
 );
 COMMIT;
 
-INSERT INTO Paliwa(ID_ceny,ilosc_w_litrach,maksymalna_ilosc,ilosc_punktow) VALUES(5,550,1200,4); -- benzyna 95
-INSERT INTO Paliwa(ID_ceny,ilosc_w_litrach,maksymalna_ilosc,ilosc_punktow) VALUES(15,390,500,7); -- benzyna 98
-INSERT INTO Paliwa(ID_ceny,ilosc_w_litrach,maksymalna_ilosc,ilosc_punktow) VALUES(25,480,1000,3); -- standard diesel
-INSERT INTO Paliwa(ID_ceny,ilosc_w_litrach,maksymalna_ilosc,ilosc_punktow) VALUES(36,320,400,7); -- premium diesel
-INSERT INTO Paliwa(ID_ceny,ilosc_w_litrach,maksymalna_ilosc,ilosc_punktow) VALUES(45,740,1200,2); -- LPG
+INSERT INTO Paliwa(ID_ceny,ilosc_w_litrach,maksymalna_ilosc,ilosc_punktow) VALUES(59,550,1200,4); -- benzyna 95
+INSERT INTO Paliwa(ID_ceny,ilosc_w_litrach,maksymalna_ilosc,ilosc_punktow) VALUES(54,390,500,7); -- benzyna 98
+INSERT INTO Paliwa(ID_ceny,ilosc_w_litrach,maksymalna_ilosc,ilosc_punktow) VALUES(57,480,1000,3); -- standard diesel
+INSERT INTO Paliwa(ID_ceny,ilosc_w_litrach,maksymalna_ilosc,ilosc_punktow) VALUES(60,320,400,7); -- premium diesel
+INSERT INTO Paliwa(ID_ceny,ilosc_w_litrach,maksymalna_ilosc,ilosc_punktow) VALUES(56,740,1200,2); -- LPG
 INSERT INTO Paliwa(ID_ceny,ilosc_w_litrach,maksymalna_ilosc,ilosc_punktow) VALUES(55,120,400,1); -- adBlue
 COMMIT;
 
@@ -451,7 +453,7 @@ COMMIT;
 
 CREATE TABLE Zamowienia_Paliwowe
 (
-	ID_zamowienia INTEGER,
+	ID_zamowienia INTEGER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
 	ID_ceny INTEGER,
 	ID_dostawcy INTEGER,
 	data_zamowienia DATE,
@@ -464,8 +466,94 @@ CREATE TABLE Zamowienia_Paliwowe
 COMMIT;
 
 
+
+SELECT * FROM Dostawcy_Paliwowi;
+
+SELECT * FROM PALIWA;
+
+--SPRAWDZENIE
+----iloúciowy stan paliwa na stacji
+--select P.ID_PALIWA, TP.NAZWA_paliwa, P.ILOSC_W_LITRACH, P.MAKSYMALNA_ILOSC, hcp.data_ceny from paliwa P
+--LEFT JOIN HISTORIA_CEN_PALIW HCP USING(ID_CENY)
+--LEFT JOIN TYP_PALIWA TP ON HCP.id_typu = tp.id_typu;
+--
+----HISTORIA CEN Z NAZWAMI;
+--SELECT hcp.ID_CENY,tp.nazwa_paliwa,hcp.DATA_CENY,hcp.cena FROM Historia_Cen_Paliw hcp
+--JOIN Typ_Paliwa tp using(ID_typu)
+--WHERE DATA_CENY > '2024-03-01';
+
+
+
+--NA POTRZEBY WPROWADZENIA DANYCH TRZEBA B DZIE WYLACZYC TRIGGERY SPRAWDZAJACE PRZEPELNIENIE DYSTRYBUTOROW
+
+--CZERWIEC & LIPIEC 2023
 INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
-    VALUES()
+    VALUES(1,1,'2023-06-17',450,2550.00); --95 450
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(2,1,'2023-06-27',250,1547.50); --98 250
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(3,6,'2023-06-30',150,577.35); --AddBlue 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(4,5,'2023-07-03',480,1234.88); --LPG 480
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(5,2,'2023-07-12',150,999.26); --premium Diesel 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(6,2,'2023-07-18',450,2521.55); --standard diesel 450
+
+--SIERPIE— & WRZESIE— 2023
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(11,5,'2023-08-11',480,1236.83); --LPG 480
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(12,1,'2023-08-18',250,1637.93); --98 250
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(13,2,'2023-08-22',450,2526.50); --standard Diesel 450
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(16,1,'2023-07-18',450,2460.67); --95 450
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(20,2,'2023-09-29',150,1056.19); --premium diesel 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(22,6,'2023-10-02',150,630.00); --Ad Blue 150 
+
+
+-- PAèDZNIERNIK & LISTOPAD 2023
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(23,2,'2023-10-07',150,2618.88); --standard diesel 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(25,5,'2023-10-24',480,1325.97); --LPG 480
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(27,1,'2023-10-30',450,2435.23); --95 450
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(28,1,'2023-11-02',250,1660.22); --98 250
+    
+-- STYCZE—
+
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(29,2,'2024-01-11',150,1110.02); --premium diesel 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(30,2,'2024-01-15',450,2579.18); --standard diesel 450
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(31,6,'2024-01-18',150,718.48); --AdBlue 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(32,4,'2024-01-21',450,2478.70); --95 450
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(33,4,'2024-01-25',250,1669.42); --98 250
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(34,5,'2024-01-28',500,1378.75); --LPG 500   
+    
+-- MARZEC & KWIECIE—        
+
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(41,4,'2024-03-09',150,1183.91); --98 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(42,5,'2024-03-12',400,1163.12); -- LPG 400
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(43,1,'2024-03-15',400,2305.80); --95 400
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(44,2,'2024-05-23',150,1145.80); --premium diesel 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(46,3,'2024-04-04',400,2404.36); --standard diesel 400
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(47,6,'2024-04-10',150,791.21); --AddBlue 150    
 
 
 

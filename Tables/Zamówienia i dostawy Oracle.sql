@@ -554,6 +554,6 @@ INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa
     VALUES(46,3,'2024-04-04',400,2404.36); --standard diesel 400
 INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
     VALUES(47,6,'2024-04-10',150,791.21); --AddBlue 150    
-
+COMMIT;
 
 

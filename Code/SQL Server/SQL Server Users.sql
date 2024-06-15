@@ -18,6 +18,12 @@ GO
 ALTER ROLE [db_owner] ADD MEMBER [Administrator]
 GO
 
+--uprawnienia do procedur i funkcji
+use [StacjaPaliw]
+GO
+GRANT EXECUTE TO Administrator;
+
+
 /* Administrator */
 
 /* Menadzer */

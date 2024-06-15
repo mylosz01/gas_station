@@ -112,3 +112,28 @@
 --(36,320,400,7), -- premium diesel
 --(45,740,1200,2), -- LPG
 --(55,120,400,1) -- adBlue
+
+CREATE FUNCTION check_loyalty_points(@client_ID INT)
+RETURNS INT
+AS 
+BEGIN
+    
+	DECLARE @client_exist INT;
+	DECLARE @points INT;
+	SELECT @TSQL = 'SELECT * FROM OPENQUERY(MyLinkedServer,''SELECT * FROM pubs.dbo.authors WHERE state = ''''' + @VAR + ''''''')'
+
+	--SELECT @client_exist = COUNT(ID_klienta) FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."KLIENCI"
+	--WHERE ID_klienta = @client_ID;
+	SELECT @client_exist = COUNT(ID_klienta) FROM OPENQUERY(ZaopatrzenieOracle,@connection_string));
+	IF @client_exist = 0
+	BEGIN
+		RETURN CAST ('Nie znaleziono klienta o podanym ID' AS INT);
+	END
+
+
+	SELECT @points = punkty FROM OPENQUERY(ZaopatrzenieOracle,'Select punkty FROM ADMINISTRATORORACLE.KLIENCI WHERE ID_klienta= '+ CAST(@client_ID AS VARCHAR(10)));
+	--SELECT @points = punkty FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."KLIENCI"
+	--WHERE ID_klienta = @client_ID;
+
+    RETURN @points;
+END;

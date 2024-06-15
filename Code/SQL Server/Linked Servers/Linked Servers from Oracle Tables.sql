@@ -54,7 +54,6 @@ EXEC master.dbo.sp_addlinkedsrvlogin
 	@rmtuser = N'AdministratorOracle', --wykorzystujemy dane logowania z Oracle (musimy daæ false, ¿eby da³o siê zamapowaæ konto)
     @rmtpassword = N'123'
 
-
-	SELECT * 
-	FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PALIWA";
-	go
+SELECT * 
+FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PALIWA";
+go

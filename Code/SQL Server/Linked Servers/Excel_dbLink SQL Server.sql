@@ -72,3 +72,11 @@
 	--Select * from Listy...[oceny_do_www$]
 
 	--https://stackoverflow.com/questions/26267224/the-ole-db-provider-microsoft-ace-oledb-12-0-for-linked-server-null/29369868#29369868
+
+	SELECT * FROM OPENQUERY(Pracownicy,'Select * From [Pracownicy$]');
+
+	INSERT INTO OPENQUERY(Pracownicy, 'SELECT * FROM [Pracownicy$]')
+	VALUES (50,'AAA','BBB', '152345778',15);
+
+	DELETE FROM OPENQUERY(Pracownicy, 'SELECT * FROM [Pracownicy$]')
+	WHERE ID_pracownika = 61;

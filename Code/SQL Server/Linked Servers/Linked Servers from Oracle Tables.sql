@@ -54,6 +54,16 @@ EXEC master.dbo.sp_addlinkedsrvlogin
 	@rmtuser = N'AdministratorOracle', --wykorzystujemy dane logowania z Oracle (musimy daæ false, ¿eby da³o siê zamapowaæ konto)
     @rmtpassword = N'123'
 
+
+-- do wywoływania procedur z Oracle na SQL Serverze
+USE [master]
+GO
+EXEC master.dbo.sp_serveroption @server=N'ZaopatrzenieOracle', @optname=N'rpc', @optvalue=N'true'
+GO
+EXEC master.dbo.sp_serveroption @server=N'ZaopatrzenieOracle', @optname=N'rpc out', @optvalue=N'true'
+GO
+
+
 SELECT * 
 FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PALIWA";
 go

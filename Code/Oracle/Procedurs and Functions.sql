@@ -1,4 +1,4 @@
-CREATE OR REPLACE Procedure update_petrol_prices
+CREATE OR REPLACE Procedure update_petrol_price
     (petrol_name IN varchar2, petrol_price IN NUMBER)
 IS
     petrol_name_exist INTEGER;
@@ -12,6 +12,7 @@ BEGIN
     
     IF petrol_name_exist = 0 THEN
        raise_application_error(-20001,'Nieprawidlowa nazwa paliwa');
+       RETURN;
     END IF;
     
     SELECT p.id_paliwa INTO petrol_id FROM paliwa p
@@ -24,6 +25,7 @@ BEGIN
     WHERE ID_ceny = (SELECT MAX(ID_ceny) FROM Historia_Cen_Paliw);
     UPDATE Paliwa SET ID_ceny = new_price_id WHERE ID_paliwa = petrol_id;
     
+    COMMIT;
     dbms_output.put_line('Cena Paliwa zostala zaktualizowana');
 END;
 
@@ -54,6 +56,8 @@ BEGIN
     UPDATE Paliwa SET ilosc_punktow = petrol_points
     WHERE ID_paliwa = petrol_id;
     
+    COMMIT;
+    
     dbms_output.put_line('Punkty dla danego paliwa zostaly zaktualizowane');
 END;
 
@@ -62,6 +66,8 @@ END;
 --BEGIN
 --    SELECT ID_produktu,nazwa,cena_jednostkowa,ilosc_punktow FROM produkty]_spozywcze;
 --END;
+
+
 
 
 

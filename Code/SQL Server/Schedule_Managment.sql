@@ -150,6 +150,20 @@ BEGIN
 END;
 
 
+CREATE OR ALTER FUNCTION check_employee_on_shift(
+@shift_time DATETIME)
+RETURNS INT
+AS
+BEGIN
+	
+	DECLARE @emp_number INT;
+
+	SELECT @emp_number = COUNT(ID_pracownika) FROM Harmonogram WHERE CONVERT(date,data_rozpoczecia_zmiany) = CONVERT(DATE,@shift_time);
+
+	return @emp_number;
+END;
+
+
 -- TEST IMPLEMENTED FUNCTION AND PROCEDURE
 SELECT * FROM Harmonogram WHERE ID_pracownika = 2;
 -- employee has already shift
@@ -159,3 +173,6 @@ SELECT [dbo].[is_shift_valid](2,'2024-06-22 15:00:00');
 
 -- procedure to add shift
 exec dbo.add_shift_employee 2,'2024-06-27 15:00:00';
+
+-- check number of emp on shift
+SELECT dbo.check_employee_on_shift('2024-06-20 15:00:00');

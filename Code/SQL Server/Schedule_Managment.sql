@@ -150,6 +150,14 @@ BEGIN
 
 END;
 
+CREATE OR ALTER PROCEDURE delete_employee_shift(
+@shift_id INT)
+AS 
+BEGIN
+	DELETE FROM Harmonogram WHERE ID_wpisu = @shift_id;
+	PRINT N'Shift ID: ' + CAST(@shift_id AS VARCHAR(10)) + N' deleted.' 
+END;
+
 
 CREATE OR ALTER FUNCTION check_employee_on_shift(
 @shift_time DATETIME)
@@ -189,3 +197,8 @@ SELECT dbo.check_employee_on_shift('2024-06-20 15:00:00');
 
 -- show emp shifts
 EXEC dbo.show_employee_schedule @emp_id = 2;
+
+-- del emp shift
+EXEC dbo.delete_employee_shift @shift_id = 49;
+
+SELECT * FROM Harmonogram;

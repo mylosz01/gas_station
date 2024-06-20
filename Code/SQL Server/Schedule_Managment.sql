@@ -139,6 +139,7 @@ BEGIN
 	IF dbo.is_shift_valid(@id_emp, @shift_date) = 0
 	BEGIN
 		RAISERROR('Invalid shift time or no employee', 16, 1);
+		RETURN;
 	END;
 	ELSE
 	BEGIN
@@ -155,12 +156,21 @@ CREATE OR ALTER FUNCTION check_employee_on_shift(
 RETURNS INT
 AS
 BEGIN
-	
 	DECLARE @emp_number INT;
-
 	SELECT @emp_number = COUNT(ID_pracownika) FROM Harmonogram WHERE CONVERT(date,data_rozpoczecia_zmiany) = CONVERT(DATE,@shift_time);
+	RETURN @emp_number;
+END;
 
-	return @emp_number;
+
+CREATE OR ALTER PROCEDURE show_employee_schedule(
+@emp_id INT)
+AS 
+BEGIN 
+	
+	SELECT ID_wpisu, data_rozpoczecia_zmiany,data_zakonczenia_zmiany FROM Harmonogram 
+	WHERE ID_pracownika = @emp_id
+	ORDER BY data_rozpoczecia_zmiany DESC;
+
 END;
 
 
@@ -172,7 +182,10 @@ SELECT [dbo].[is_shift_valid](2,'2024-06-20 15:00:00');
 SELECT [dbo].[is_shift_valid](2,'2024-06-22 15:00:00');
 
 -- procedure to add shift
-exec dbo.add_shift_employee 2,'2024-06-27 15:00:00';
+exec dbo.add_shift_employee @id_emp = 2, @shift_date = '2024-06-27 15:00:00';
 
 -- check number of emp on shift
 SELECT dbo.check_employee_on_shift('2024-06-20 15:00:00');
+
+-- show emp shifts
+EXEC dbo.show_employee_schedule @emp_id = 2;

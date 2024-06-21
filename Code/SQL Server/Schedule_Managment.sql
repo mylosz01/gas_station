@@ -136,6 +136,14 @@ CREATE OR ALTER PROCEDURE add_shift_employee(
 @shift_date DATETIME)
 AS
 BEGIN
+
+	IF dbo.check_employee_on_shift(@shift_date) > 4
+	BEGIN
+		RAISERROR('Too much employees on shift', 16, 1);
+		RETURN;
+	END;
+
+
 	IF dbo.is_shift_valid(@id_emp, @shift_date) = 0
 	BEGIN
 		RAISERROR('Invalid shift time or no employee', 16, 1);

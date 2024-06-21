@@ -23,12 +23,34 @@ EXEC [dbo].[add_points_to_client]
 select * from ZaopatrzenieOracle.."ADMINISTRATORORACLE"."KLIENCI"
 WHERE ID_klienta = 5;
 
+--OPENROWSET
+
+--Oracle
+SELECT ora.*
+	FROM OPENROWSET(
+		'OraOLEDB.Oracle',
+		'(DESCRIPTION =
+		(ADDRESS_LIST =
+		  (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.162.166)(PORT = 1521))
+		)
+		(CONNECT_DATA =
+		  (SID = orcl)
+		)
+		)';
+		'AdministratorOracle';
+		'123',
+		'Select * from ADMINISTRATORORACLE.PALIWA'
+	) as ora
+	GO
+
+-- Excel
+SELECT * 
+FROM OPENROWSET('Microsoft.ACE.OLEDB.16.0', 
+'Excel 12.0;Database=C:\Pracownicy.xlsx;', Pracownicy$);
 
 
---obecnie open rowset dla konta innego niż sa nie działa. 
---Nie ma w rejestrze sterowników możliwości ustawienia DisallowAdHocAccess, 
---a próba ustawienia przez Management Studio zwraca odmowę dostępu.
---https://microsoft.public.sqlserver.security.narkive.com/9ehq909L/non-sa-users-get-access-denied-in-ole-db-query
+
+SELECT CURRENT_USER;
 
 --Dodanie pracownika (Excel)
 EXEC [dbo].[hire_employee]

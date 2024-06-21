@@ -103,8 +103,17 @@ EXEC update_price_of_fuel @fuel_name = 'benzyna 95', @new_price = 3.22;
 
 -- update points petrol
 CREATE OR ALTER PROCEDURE update_points_of_fuel(
-@fuel_id INT = 1)
+@fuel_name VARCHAR(MAX),
+@new_points INT
+)
 AS
 BEGIN
-	
+	DECLARE @sql NVARCHAR(MAX);
+	SET @sql = N'
+BEGIN 
+    update_petrol_points(''' + @fuel_name + ''', ' + CAST(@new_points AS NVARCHAR) + '); 
+END;';
+	EXECUTE(@sql) AT [ZaopatrzenieOracle]
 END;
+
+EXEC update_points_of_fuel @fuel_name = 'benzyna 95', @new_points = 99;

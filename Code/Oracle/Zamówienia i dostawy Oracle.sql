@@ -349,3 +349,16 @@ COMMIT;
 
 select * from paliwa;
 
+
+-- Create view to show fuel order history
+CREATE OR REPLACE VIEW show_order_fuel_history
+AS
+    SELECT Zam.id_zamowienia, Hist.Id_typu, Hist.cena, Dos_pal.nazwa ,Zam.data_zamowienia,
+    Zam.ilosc_paliwa, Zam.koszt_dostawy
+    FROM zamowienia_paliwowe Zam
+    JOIN historia_cen_paliw  Hist 
+    ON Zam.id_ceny = Hist.id_ceny
+    JOIN dostawcy_paliwowi Dos_pal
+    ON Dos_pal.id_dostawcy = Zam.ID_Dostawcy;
+    
+SELECT * FROM show_order_fuel_history

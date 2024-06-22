@@ -256,8 +256,8 @@ CREATE TABLE Harmonogram
 (
 	ID_wpisu INT IDENTITY(1,1),
 	ID_pracownika INT,
-	data_rozpoczêcia_zmiany DATETIME,
-	data_zakoñczenia_zmiany DATETIME,
+	data_rozpoczecia_zmiany DATETIME,
+	data_zakonczenia_zmiany DATETIME,
 	-- mo¿naby zrobiæ procedurê licz¹c¹ wynagrodzenie pracowniowi za dan¹ zmianê
 	CONSTRAINT PK_Harmonogram PRIMARY KEY (ID_wpisu),
 	CONSTRAINT CHCK_ID_pracownika CHECK (ID_pracownika IS NOT NULL)

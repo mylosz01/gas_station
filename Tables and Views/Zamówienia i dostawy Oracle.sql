@@ -466,11 +466,6 @@ CREATE TABLE Zamowienia_Paliwowe
 COMMIT;
 
 
-
-SELECT * FROM Dostawcy_Paliwowi;
-
-SELECT * FROM PALIWA;
-
 --SPRAWDZENIE
 ----iloœciowy stan paliwa na stacji
 --select P.ID_PALIWA, TP.NAZWA_paliwa, P.ILOSC_W_LITRACH, P.MAKSYMALNA_ILOSC, hcp.data_ceny from paliwa P
@@ -555,5 +550,7 @@ INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa
 INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
     VALUES(47,6,'2024-04-10',150,791.21); --AddBlue 150    
 COMMIT;
+
+
 
 

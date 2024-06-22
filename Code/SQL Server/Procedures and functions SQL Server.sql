@@ -201,8 +201,9 @@ AS
 	DECLARE @petrol_exist INT
 	DECLARE @petrol_amount INT
 	DECLARE @petrol_max_amount INT 
-	DECLARE @petrol_value NUMERIC(5,2)
+	DECLARE @petrol_value NUMERIC(8,2)
 	DECLARE @points_to_add INT
+	DECLARE @update_sql NVARCHAR(MAX)
 BEGIN
 
 	IF @amount <= 0
@@ -243,9 +244,12 @@ BEGIN
 	END
 
 	--odjęcie paliwa powiązanego z transakcją
-	UPDATE OPENQUERY(ZaoptrzenieOracle,'SELECT * FROM ADMINISTRATORORACLE.PALIWA')
-	SET ILOSC_W_LITRACH = @petrol_amount - @amount
+
+	UPDATE ZaopatrzenieOracle..ADMINISTRATORORACLE.PALIWA
+	SET ILOSC_W_LITRACH = ILOSC_W_LITRACH - @amount
 	WHERE ID_PALIWA = @petrol_ID;
+
+
 
 	SELECT @petrol_value = @amount * HCP.CENA, @points_to_add = @amount *  P.ILOSC_PUNKTOW
 	FROM OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM ADMINISTRATORORACLE.PALIWA') AS P
@@ -254,7 +258,7 @@ BEGIN
 	WHERE P.ID_PALIWA = @petrol_ID;
 
 	INSERT INTO Transakcje_paliwowe(ID_klienta,ID_paliwa,kwota_transakcji,ilosc_paliwa,data_transakcji) 
-		VALUES(@client_ID,@petrol_ID,@petrol_value,@amount,GETDATE());
+		VALUES(@client_ID,@petrol_ID,@petrol_value,@amount,GETDATE())
 
 	IF @client_ID IS NOT NULL
 	BEGIN
@@ -316,14 +320,15 @@ BEGIN
 	END
 
 	--odjęcie produktów powiązanych z transakcją
-	UPDATE OPENQUERY(ZaoptrzenieOracle,'SELECT * FROM ADMINISTRATORORACLE.Produkty_spozywcze')
-	SET ILOSC_NA_STANIE = @products_amount - @amount
-	WHERE ID_PRODUKTU = @product_ID;
+	UPDATE ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PRODUKTY_SPOZYWCZE"
+	SET ILOSC_NA_STANIE = ILOSC_NA_STANIE - @amount
+	WHERE ID_PRODUKTU = @product_ID
+	OPTION (RECOMPILE);
 
 
 	SELECT @products_value = @amount * CENA_JEDNOSTKOWA, @points_to_add = @amount *  ILOSC_PUNKTOW
 	FROM OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM ADMINISTRATORORACLE.Produkty_spozywcze')
-	WHERE P.ID_PRODUKTU = @product_ID;
+	WHERE ID_PRODUKTU = @product_ID;
 
 	INSERT INTO Transakcje_spozywcze(ID_klienta,ID_produktu,ilosc,kwota_transakcji,data_transakcji)
 		VALUES(@client_ID,@product_ID,@amount,@products_value,GETDATE());

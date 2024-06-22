@@ -61,11 +61,7 @@ BEGIN
     dbms_output.put_line('Punkty dla danego paliwa zostaly zaktualizowane');
 END;
 
---CREATE OR REPLACE Procedure show_product_prices()
---IS
---BEGIN
---    SELECT ID_produktu,nazwa,cena_jednostkowa,ilosc_punktow FROM produkty]_spozywcze;
---END;
+
 
 
 

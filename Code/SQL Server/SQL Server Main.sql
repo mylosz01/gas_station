@@ -118,11 +118,246 @@ EXECUTE (
 GO
 
 
-SELECT * FROM TRANSAKCJE_PALIWOWE;
-
-
 --Dodanie transakcji --testowanie
+
+	-- prawidlowa transakcja
+	DECLARE @clientID INT;
+	DECLARE @petrolID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 10;
+	SET @petrolID = 5;
+	SET @amount_set = 35;
+
+	EXEC dbo.add_petrol_transaction
+	@client_ID = @clientID,
+	@petrol_ID = @petrolID,
+	@amount = @amount_set
+
+	
+	SELECT * FROM Transakcje_paliwowe
+	ORDER BY data_transakcji DESC;
+
+	-- ujemna ilosc paliwa
+	DECLARE @clientID INT;
+	DECLARE @petrolID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 10;
+	SET @petrolID = 5;
+	SET @amount_set = -35;
+
+	EXEC dbo.add_petrol_transaction
+	@client_ID = @clientID,
+	@petrol_ID = @petrolID,
+	@amount = @amount_set
+	
+	SELECT * FROM Transakcje_paliwowe
+	ORDER BY data_transakcji DESC;
+
+	-- KLIENTA NIE MA W BAZIE DANYCH
+	DECLARE @clientID INT;
+	DECLARE @petrolID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 225;
+	SET @petrolID = 5;
+	SET @amount_set = 35;
+
+	EXEC dbo.add_petrol_transaction
+	@client_ID = @clientID,
+	@petrol_ID = @petrolID,
+	@amount = @amount_set
+
+	
+	SELECT * FROM Transakcje_paliwowe
+	ORDER BY data_transakcji DESC;
+
+	
+	-- ID klienta zdefiniowane jako NULL
+	DECLARE @clientID INT;
+	DECLARE @petrolID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = NULL;
+	SET @petrolID = 5;
+	SET @amount_set = 35;
+
+	EXEC dbo.add_petrol_transaction
+	@client_ID = @clientID,
+	@petrol_ID = @petrolID,
+	@amount = @amount_set
+
+	
+	SELECT * FROM Transakcje_paliwowe
+	ORDER BY data_transakcji DESC;
+
+
+	-- PALIWA NIE MA W BAZIE DANYCH
+	DECLARE @clientID INT;
+	DECLARE @petrolID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 10;
+	SET @petrolID = 50;
+	SET @amount_set = 35;
+
+	EXEC dbo.add_petrol_transaction
+	@client_ID = @clientID,
+	@petrol_ID = @petrolID,
+	@amount = @amount_set
+
+	SELECT * FROM Transakcje_paliwowe
+	ORDER BY data_transakcji DESC;
+
+	--zamówienie paliwa ponad dostępną ilosc
+	DECLARE @clientID INT;
+	DECLARE @petrolID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 10;
+	SET @petrolID = 5;
+	SET @amount_set = 1000;
+
+	EXEC dbo.add_petrol_transaction
+	@client_ID = @clientID,
+	@petrol_ID = @petrolID,
+	@amount = @amount_set
+
+	
+	SELECT * FROM Transakcje_paliwowe
+	ORDER BY data_transakcji DESC;
+
+	SELECT * FROM petrol_stock;
+	
+	
+	-- zamowienie paliwa tak ze zostawilo by krytyczna ilosc
+	DECLARE @clientID INT;
+	DECLARE @petrolID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 10;
+	SET @petrolID = 5;
+	SET @amount_set = 609;
+
+	EXEC dbo.add_petrol_transaction
+	@client_ID = @clientID,
+	@petrol_ID = @petrolID,
+	@amount = @amount_set
+	
+	SELECT * FROM Transakcje_paliwowe
+	ORDER BY data_transakcji DESC;
+
+	SELECT * FROM petrol_stock;
+	select * from petrol_prices;
+
 -- Dodanie produktu -- testowanie
+
+select * from ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PRODUKTY_SPOZYWCZE"
+SELECT * FROM products_stock;
+SELECT * FROM products_prices;
+
+	--transakcja prawidlowa
+	
+	DECLARE @clientID INT;
+	DECLARE @productID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 10;
+	SET @productID = 2;
+	SET @amount_set = 3;
+
+	EXEC dbo.add_product_transaction
+	@client_ID = @clientID,
+	@product_ID = @productID,
+	@amount = @amount_set
+
+	SELECT * FROM Transakcje_spozywcze
+	ORDER BY data_transakcji DESC;
+
+	SELECT * FROM products_stock;
+	SELECT * FROM products_prices;
+
+	
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM KLIENCI')
+	WHERE ID_klienta = 10;
+
+	--UPDATE ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PRODUKTY_SPOZYWCZE"
+	--SET ILOSC_NA_STANIE = 15
+	--WHERE ID_PRODUKTU = 2;
+
+	--ujemna ilosc produktu
+	DECLARE @clientID INT;
+	DECLARE @productID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 10;
+	SET @productID = 2;
+	SET @amount_set = 3;
+
+	EXEC dbo.add_product_transaction
+	@client_ID = @clientID,
+	@product_ID = @productID,
+	@amount = @amount_set
+
+	SELECT * FROM Transakcje_spozywcze
+	ORDER BY data_transakcji DESC;
+
+
+	--klienta nie ma w bazie danych
+	DECLARE @clientID INT;
+	DECLARE @productID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 225;
+	SET @productID = 2;
+	SET @amount_set = 3;
+
+	EXEC dbo.add_product_transaction
+	@client_ID = @clientID,
+	@product_ID = @productID,
+	@amount = @amount_set
+
+	SELECT * FROM Transakcje_spozywcze
+	ORDER BY data_transakcji DESC;
+
+	--zamowienie klienta od ID ustawionym jako NULL
+	DECLARE @clientID INT;
+	DECLARE @productID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = NULL;
+	SET @productID = 2;
+	SET @amount_set = 3;
+
+	EXEC dbo.add_product_transaction
+	@client_ID = @clientID,
+	@product_ID = @productID,
+	@amount = @amount_set
+
+	SELECT * FROM Transakcje_spozywcze
+	ORDER BY data_transakcji DESC;
+
+	SELECT * FROM products_stock;
+
+	--zamowienie na wiecej produktow niz jest na stanie
+	DECLARE @clientID INT;
+	DECLARE @productID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 10;
+	SET @productID = 2;
+	SET @amount_set = 225;
+
+	EXEC dbo.add_product_transaction
+	@client_ID = @clientID,
+	@product_ID = @productID,
+	@amount = @amount_set
+
+	SELECT * FROM Transakcje_spozywcze
+	ORDER BY data_transakcji DESC;
+
+
 
 --client_petrol_transaction_history --testowanie
 SELECT ID_paliwa,kwota_transakcji,ilosc_paliwa,data_transakcji FROM Transakcje_paliwowe WHERE ID_klienta = 10;
@@ -135,3 +370,9 @@ SELECT ID_produktu,ilosc,kwota_transakcji,data_transakcji FROM Transakcje_spozyw
 
 EXEC dbo.client_products_transaction_history
 @client_ID = 10;
+
+UPDATE OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM ADMINISTRATORORACLE.PALIWA')
+	SET ILOSC_W_LITRACH = 740
+	WHERE ID_PALIWA = 5;
+
+SELECT * FROM petrol_stock;

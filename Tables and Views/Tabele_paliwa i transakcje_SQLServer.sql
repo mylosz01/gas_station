@@ -10,7 +10,7 @@ CREATE TABLE Transakcje_paliwowe
 	ID_transakcji INT IDENTITY(1,1),
 	ID_klienta INT,
 	ID_paliwa INT,
-	kwota_transakcji SMALLMONEY,
+	kwota_transakcji NUMERIC(8,2),
 	ilosc_paliwa NUMERIC(5,2),
 	data_transakcji DATETIME,
 	CONSTRAINT PK_Transakcje_paliwowe PRIMARY KEY (ID_transakcji)
@@ -154,7 +154,7 @@ CREATE TABLE Transakcje_spozywcze
 	ID_klienta INT,
 	ID_produktu INT,
 	ilosc INT,
-	kwota_transakcji SMALLMONEY,
+	kwota_transakcji NUMERIC(8,2),
 	data_transakcji DATETIME,
 	CONSTRAINT PK_Transakcje_Spozywcze PRIMARY KEY (ID_transakcji),
 

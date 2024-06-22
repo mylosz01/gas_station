@@ -316,8 +316,9 @@ BEGIN
 	END
 
 	--odjęcie produktów powiązanych z transakcją
-	UPDATE OPENQUERY(ZaoptrzenieOracle,'SELECT * FROM ADMINISTRATORORACLE.Produkty_spozywcze')
-	SET ILOSC_NA_STANIE = @products_amount - @amount
+
+	UPDATE ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PRODUKTY_SPOZYWCZE"
+	SET ILOSC_NA_STANIE = ILOSC_NA_STANIE - @amount
 	WHERE ID_PRODUKTU = @product_ID;
 
 

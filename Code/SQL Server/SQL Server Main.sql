@@ -1,20 +1,4 @@
 ﻿
---Sprawdzenie działania
-SELECT * 
-FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PALIWA";
-go
-
-DECLARE @petrol_name varchar(20);
-declare @new_price NUMERIC(8,2);
-
-Set @petrol_name = 'LPG'
-
-EXECUTE (
-    'BEGIN ADMINISTRATORORACLE.UPDATEPETROLPOINTS(:pertol_name, :new_price); END;',
-    @petrol_name, @new_price
-) AT ORACLE_LINK;
-
-
 -- wywołanie sprawdzenia punktów dla klienta
 USE [StacjaPaliw]
 GO
@@ -29,7 +13,6 @@ Select @pointsOut as 'User Points'
 select * from ZaopatrzenieOracle.."ADMINISTRATORORACLE"."KLIENCI"
 
 --dodawania klientowi punktów
-
 USE [StacjaPaliw]
 GO
 
@@ -47,7 +30,7 @@ WHERE ID_klienta = 5;
 --a próba ustawienia przez Management Studio zwraca odmowę dostępu.
 --https://microsoft.public.sqlserver.security.narkive.com/9ehq909L/non-sa-users-get-access-denied-in-ole-db-query
 
-
+--Dodanie pracownika (Excel)
 EXEC [dbo].[hire_employee]
 @emp_ID = 15,
 @name = 'Stefan',
@@ -58,7 +41,6 @@ EXEC [dbo].[hire_employee]
 SELECT * FROM OPENQUERY(Pracownicy,'Select * from [Pracownicy$]');
 
 -- Stwórz zamówienie paliwowe - testowanie
-
 EXEC dbo.make_petrol_order
 @petrol_name = 'benzyna 95',
 @provider_ID  = '20',
@@ -78,3 +60,56 @@ EXEC dbo.make_product_order
 SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_spozywcze');
 DELETE FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_spozywcze')
 WHERE ID_ZAMOWIENIA = 61;
+
+
+--Ustawienie ceny paliwa - testowanie
+
+DECLARE @petrol_name varchar(20);
+declare @new_price NUMERIC(8,2);
+
+Set @petrol_name = 'LPG';
+SET @new_price = 2.25;
+
+EXECUTE (
+    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_PRICE(:pertol_name, :new_price); END;',
+    @petrol_name, @new_price
+) AT ZaopatrzenieOracle;
+GO
+
+
+SELECT * FROM dbo.petrol_prices;
+GO
+
+
+--Ustawienie punktów za dane paliwo -testowanie
+
+DECLARE @petrol_name varchar(20);
+declare @new_points INT;
+
+Set @petrol_name = 'LPG';
+SET @new_points = 3;
+
+EXECUTE (
+    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_POINTS(:pertol_name, :new_price); END;',
+    @petrol_name, @new_points
+) AT ZaopatrzenieOracle;
+GO
+
+
+SELECT * FROM TRANSAKCJE_PALIWOWE;
+
+
+--Dodanie transakcji --testowanie
+-- Dodanie produktu -- testowanie
+
+--client_petrol_transaction_history --testowanie
+SELECT ID_paliwa,kwota_transakcji,ilosc_paliwa,data_transakcji FROM Transakcje_paliwowe WHERE ID_klienta = 10;
+
+EXEC dbo.client_petrol_transaction_history
+@client_ID = 10;
+
+--client_products_transaction_history
+SELECT ID_produktu,ilosc,kwota_transakcji,data_transakcji FROM Transakcje_spozywcze WHERE ID_klienta = 10;
+
+EXEC dbo.client_products_transaction_history
+@client_ID = 10;

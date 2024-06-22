@@ -43,7 +43,32 @@ WHERE tp.nazwa_paliwa = 'benzyna 98'
 EXEC update_petrol_prices('benzyna 95', '7,98');
 EXEC update_petrol_points('benzyna 95', 12);
 
-SELECT * FROM produkty_spozywcze;
+--DEBUGOWANIE KOMENDY ZMIANY CENY PALIWA
+
+DECLARE
+  PETROL_NAME VARCHAR2(200);
+  PETROL_PRICE NUMBER;
+BEGIN
+  PETROL_NAME := 'LPG';
+  PETROL_PRICE := 2.52;
+
+  UPDATE_PETROL_PRICE(
+    PETROL_NAME => PETROL_NAME,
+    PETROL_PRICE => PETROL_PRICE
+  );
+END;
+
+Select p.ID_paliwa,tp.nazwa_paliwa,hcp.cena, p.ilosc_punktow,hcp.data_ceny FROM
+Paliwa p
+LEFT JOIN Historia_cen_paliw hcp
+ON p.ID_ceny = hcp.ID_ceny
+LEFT JOIN Typ_paliwa tp
+ON tp.ID_typu = hcp.ID_typu;
+
+
+--SELECTY DO TABEL:
+
+
 select * from PALIWA;
 select * from historia_cen_paliw;
 select * from klienci;
@@ -55,3 +80,10 @@ select * from typ_paliwa;
 
 select * from zamowienia_spozywcze
 SELECT * FROM DOSTAWCY_SPOZYWCZY;
+
+select id_produktu,cena_jednostkowa From produkty_spozywcze;
+
+SELECT * FROM PRODUKTY_SPOZYWCZE;
+
+
+

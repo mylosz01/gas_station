@@ -278,7 +278,6 @@ SELECT * FROM products_prices;
 	SELECT * FROM products_stock;
 	SELECT * FROM products_prices;
 
-	
 	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM KLIENCI')
 	WHERE ID_klienta = 10;
 
@@ -376,3 +375,114 @@ UPDATE OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM ADMINISTRATORORACLE.PALIWA')
 	WHERE ID_PALIWA = 5;
 
 SELECT * FROM petrol_stock;
+
+
+
+-- set_product_price
+	
+	-- prawidlowe wywolanie
+	DECLARE @product_name varchar(40);
+	declare @new_price NUMERIC(5,2);
+
+	Set @product_name = 'Hot-dog duzy';
+	SET @new_price = 9.50;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_PRICE(:product_name, :new_price); END;',
+		@product_name, @new_price
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_prices;
+
+	--ujemna cena
+	DECLARE @product_name varchar(40);
+	declare @new_price NUMERIC(5,2);
+
+	Set @product_name = 'Hot-dog duzy';
+	SET @new_price = -8.50;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_PRICE(:product_name, :new_price); END;',
+		@product_name, @new_price
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_prices;
+
+	--produkt o danej nazwie nie istnieje
+	DECLARE @product_name varchar(40);
+	declare @new_price NUMERIC(5,2);
+
+	Set @product_name = 'aaa';
+	SET @new_price = 8.50;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_PRICE(:product_name, :new_price); END;',
+		@product_name, @new_price
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_prices;
+
+	--zmiana ceny wieksza niz 50% poprzedniej wartosci
+	DECLARE @product_name varchar(40);
+	declare @new_price NUMERIC(5,2);
+
+	Set @product_name = 'Hot-dog duzy';
+	SET @new_price = 17.99;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_PRICE(:product_name, :new_price); END;',
+		@product_name, @new_price
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_prices;
+
+
+--set_product_points
+	
+	--prawidlowe wywolanie
+	DECLARE @product_name varchar(40);
+	declare @new_points INT;
+
+	Set @product_name = 'Hot-dog duzy';
+	SET @new_points = 250;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_POINTS(:product_name, :new_points); END;',
+		@product_name, @new_points
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_prices;
+
+	--liczba punktow ujemna
+	DECLARE @product_name varchar(40);
+	declare @new_points INT;
+
+	Set @product_name = 'Hot-dog duzy';
+	SET @new_points = -130;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_POINTS(:product_name, :new_points); END;',
+		@product_name, @new_points
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_prices;
+	--produkt nie istnieje
+	DECLARE @product_name varchar(40);
+	declare @new_points INT;
+
+	Set @product_name = 'aaa';
+	SET @new_points = 270;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_POINTS(:product_name, :new_points); END;',
+		@product_name, @new_points
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_prices;

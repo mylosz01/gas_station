@@ -34,3 +34,6 @@ GRANT EXECUTE TO Administrator;
 
 /* Klient */
 /* Klient */
+
+/*Zarzad*/
+/*Zarzad*/

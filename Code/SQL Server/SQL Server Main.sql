@@ -118,7 +118,7 @@ EXECUTE (
 GO
 
 
---Dodanie transakcji --testowanie
+--Dodanie transakcji paliwa
 
 	-- prawidlowa transakcja
 	DECLARE @clientID INT;
@@ -251,7 +251,7 @@ GO
 	SELECT * FROM petrol_stock;
 	select * from petrol_prices;
 
--- Dodanie produktu -- testowanie
+-- Dodanie transakcji produktu -- testowanie
 
 select * from ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PRODUKTY_SPOZYWCZE"
 SELECT * FROM products_stock;

@@ -117,3 +117,13 @@ END;';
 END;
 
 EXEC update_points_of_fuel @fuel_name = 'benzyna 95', @new_points = 99;
+
+-- show statistic about car wash
+CREATE OR ALTER PROCEDURE show_statistic_car_wash
+AS
+BEGIN
+	SELECT NAZWA_PROGRAMU, COUNT(NAZWA_PROGRAMU) AS NumberOfTransaction, DATA_TRANSAKCJI
+	FROM OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM ROZSZERZONE_TRANSAKCJE_MYJNI')
+	GROUP BY NAZWA_PROGRAMU, DATA_TRANSAKCJI
+	ORDER BY DATA_TRANSAKCJI DESC, NAZWA_PROGRAMU ASC;
+END;

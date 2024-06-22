@@ -53,14 +53,37 @@ FROM OPENROWSET('Microsoft.ACE.OLEDB.16.0',
 SELECT CURRENT_USER;
 
 --Dodanie pracownika (Excel)
-EXEC [dbo].[hire_employee]
-@emp_ID = 15,
-@name = 'Stefan',
-@surname = 'Wisniewski',
-@phone_number = '428624798',
-@salary = 15;
+-- Zatrudnianie pracownika (hire_employee)
+		
+		--prawidłowe wywołanie
+		EXEC [dbo].[hire_employee]
+		@emp_ID = 225,
+		@name = 'Alina',
+		@surname = 'Nowak',
+		@phone_number = '428624798',
+		@salary = 15;
 
-SELECT * FROM OPENQUERY(Pracownicy,'Select * from [Pracownicy$]');
+		SELECT * FROM dbo.show_employees;
+
+		--pensja ujemna
+		EXEC [dbo].[hire_employee]
+		@emp_ID = 230,
+		@name = 'Robert',
+		@surname = 'Nowicki',
+		@phone_number = '521798628',
+		@salary = -15;
+
+		SELECT * FROM dbo.show_employees;
+
+		--pracownik z danym ID już istnieje
+		EXEC [dbo].[hire_employee]
+		@emp_ID = 1,
+		@name = 'Robert',
+		@surname = 'Nowicki',
+		@phone_number = '521798628',
+		@salary = 15;
+		
+		SELECT * FROM dbo.show_employees;
 
 -- Stwórz zamówienie paliwowe - testowanie
 EXEC dbo.make_petrol_order
@@ -82,6 +105,8 @@ EXEC dbo.make_product_order
 SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_spozywcze');
 DELETE FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_spozywcze')
 WHERE ID_ZAMOWIENIA = 61;
+
+SELECT COUNT(ID_pracownika) FROM Pracownicy...[Pracownicy$] WHERE ID_pracownika = 450;
 
 
 --Ustawienie ceny paliwa - testowanie
@@ -472,6 +497,7 @@ SELECT * FROM petrol_stock;
 	GO
 
 	SELECT * FROM products_prices;
+
 	--produkt nie istnieje
 	DECLARE @product_name varchar(40);
 	declare @new_points INT;
@@ -486,3 +512,55 @@ SELECT * FROM petrol_stock;
 	GO
 
 	SELECT * FROM products_prices;
+
+--Dodanie pracownika na zmianie
+		--poprawne dodanie
+		exec dbo.add_shift_employee @id_emp = 2, @shift_date = '2024-08-27 15:00:00';
+		
+		SELECT * FROM HARMONOGRAM
+		ORDER BY ID_WPISU DESC;
+		
+		--za dużo pracowników na zmianie
+		exec dbo.add_shift_employee @id_emp = 2, @shift_date = '2024-06-27 15:00:00';
+		
+		SELECT * FROM HARMONOGRAM
+		ORDER BY ID_WPISU DESC;
+
+		--Czy pracownik jest w bazie danych
+		exec dbo.add_shift_employee @id_emp = 430, @shift_date = '2024-09-27 15:00:00';
+		
+		SELECT * FROM HARMONOGRAM
+		ORDER BY ID_WPISU DESC;
+
+		--Czy prawidlowy czas zmiany (odstęp pomiędzy zmianami)
+		exec dbo.add_shift_employee @id_emp = 2, @shift_date = '2024-08-27 16:00:00';
+		
+		SELECT * FROM HARMONOGRAM
+		ORDER BY ID_WPISU DESC;
+
+
+
+-- Usuwanie pracownika ze zmiany
+	-- prawidłowe ID zmiany
+	EXEC dbo.delete_employee_shift @shift_id = 48;
+
+	SELECT * FROM HARMONOGRAM WHERE ID_WPISU =48;
+
+	-- nieprawidłowe ID zmiany
+	EXEC dbo.delete_employee_shift @shift_id = 48;
+
+	SELECT * FROM HARMONOGRAM WHERE ID_WPISU =48;
+
+
+
+-- Wyświetlanie zmian danego pracownika
+	
+	-- pracownik istnieje
+	EXEC dbo.show_employee_schedule @emp_id = 2;
+
+	select * from harmonogram where ID_pracownika = 2;
+
+	--pracownik nie istnieje
+	EXEC dbo.show_employee_schedule @emp_id = 284;
+
+	select * from harmonogram where ID_pracownika = 284;

@@ -64,6 +64,7 @@ BEGIN
 	IF @salary < 0
 	BEGIN
 		RAISERROR('Wartość pensji nie może być mniejsza od 0', 16,1);
+		RETURN;
 	END
 	SELECT @id_busy = COUNT(ID_pracownika) FROM Pracownicy...[Pracownicy$]
 	WHERE ID_pracownika = @emp_ID;

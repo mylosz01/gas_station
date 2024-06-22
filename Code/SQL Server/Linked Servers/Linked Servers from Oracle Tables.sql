@@ -54,6 +54,13 @@ EXEC master.dbo.sp_addlinkedsrvlogin
 	@rmtuser = N'AdministratorOracle', --wykorzystujemy dane logowania z Oracle (musimy daæ false, ¿eby da³o siê zamapowaæ konto)
     @rmtpassword = N'123'
 
+EXEC master.dbo.sp_addlinkedsrvlogin
+    @rmtsrvname = N'ZaopatrzenieOracle',
+	@useself = N'False',
+    @locallogin = N'Menadzer',
+	@rmtuser = N'MenadzerOracle', --wykorzystujemy dane logowania z Oracle (musimy daæ false, ¿eby da³o siê zamapowaæ konto)
+    @rmtpassword = N'123'
+
 
 -- do wywoływania procedur z Oracle na SQL Serverze
 USE [master]

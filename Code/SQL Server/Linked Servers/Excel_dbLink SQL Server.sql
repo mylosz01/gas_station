@@ -32,12 +32,20 @@
 	GO
 
 	
-	EXEC master.dbo.sp_addlinkedsrvlogin 
+	--EXEC master.dbo.sp_addlinkedsrvlogin 
+	--@rmtsrvname = N'Pracownicy', 
+	--@useself = N'False',
+	--@locallogin = N'Administrator',
+	--@rmtuser = NULL,
+	--@rmtpassword = NULL
+	--GO
+
+	EXEC sp_addlinkedsrvlogin 
 	@rmtsrvname = N'Pracownicy', 
-	@useself = N'False',
-	@locallogin = N'Administrator',
-	@rmtuser = NULL,
-	@rmtpassword = NULL
+	@locallogin = N'sa', 
+	@useself = N'False', 
+	@rmtuser = N'admin', 
+	@rmtpassword = N'';
 	GO
 
 	EXEC sp_addlinkedsrvlogin 
@@ -47,6 +55,15 @@
 	@rmtuser = N'admin', 
 	@rmtpassword = N'';
 	GO
+
+	EXEC sp_addlinkedsrvlogin 
+	@rmtsrvname = N'Pracownicy', 
+	@locallogin = N'Menadzer', 
+	@useself = N'False', 
+	@rmtuser = N'admin', 
+	@rmtpassword = N'';
+	GO
+
 
 	--	USE [master]
 	--GO

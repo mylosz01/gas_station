@@ -57,6 +57,17 @@
     GRANT EXECUTE ON ADMINISTRATORORACLE.UPDATE_PRODUCT_STOCK TO PracownikOracle;
     
      /*Pracownik*/
+     
+     /*Klient*/
+     CREATE USER KlientOracle IDENTIFIED BY 123;
+    
+        GRANT CREATE SESSION TO KlientOracle;
+        GRANT CONNECT TO KlientOracle;
+        
+        GRANT SELECT ON ADMINISTRATORORACLE.KLIENCI TO KlienciOracle;
+     
+     
+     /*Klient*/
     
     
 

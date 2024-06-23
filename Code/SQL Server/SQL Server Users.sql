@@ -92,6 +92,20 @@ GRANT SELECT ON dbo.products_stock TO Pracownik;
 /* Pracownik */
 
 /* Klient */
+USE [master]
+GO
+CREATE LOGIN [Klient] WITH PASSWORD=N'123', DEFAULT_DATABASE=[StacjaPaliw], CHECK_EXPIRATION=ON, CHECK_POLICY=ON
+GO
+
+USE [StacjaPaliw]
+GO
+CREATE USER [Klient] FOR LOGIN [Klient] WITH DEFAULT_SCHEMA=[dbo]
+GO
+
+GRANT EXECUTE ON [dbo].[check_loyalty_points] TO Klient;
+GRANT EXECUTE ON [dbo].[client_petrol_transaction_history] TO Klient
+GRANT EXECUTE ON [dbo].[client_products_transaction_history] TO Klient
+
 /* Klient */
 
 /*Zarzad*/

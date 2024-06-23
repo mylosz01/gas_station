@@ -11,11 +11,10 @@
 --ROZWINĄĆ JAK POJAWIĄ SIĘ TABELE Z TRANSAKCJAMI
 
 CREATE PROCEDURE check_loyalty_points(
-@client_ID INT, 
-@points INT OUTPUT
-)
+@client_ID INT)
 AS 
-	Declare @client_exist INT
+	Declare @client_exist INT;
+	Declare @points INT;
 BEGIN
 	SELECT @client_exist = COUNT(ID_klienta) FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."KLIENCI"
 	WHERE ID_klienta = @client_ID;
@@ -28,6 +27,8 @@ BEGIN
 
 	SELECT @points = punkty FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."KLIENCI"
 	WHERE ID_klienta = @client_ID;
+
+	PRINT N'Klient o ID ' + CAST(@client_ID AS NVARCHAR(10)) + N' posiada ' + CAST(@points AS NVARCHAR(10)) + N' punktów';
     
 END;
 

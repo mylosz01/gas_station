@@ -473,7 +473,7 @@ SELECT * FROM products_prices;
 
 
 
---client_petrol_transaction_history --testowanie
+--client_petrol_transaction_history
 SELECT ID_paliwa,kwota_transakcji,ilosc_paliwa,data_transakcji FROM Transakcje_paliwowe WHERE ID_klienta = 10;
 
 EXEC dbo.client_petrol_transaction_history
@@ -779,6 +779,19 @@ SELECT * FROM petrol_stock;
 	GO
 
 	SELECT * FROM products_stock;
+
+
+
+
+-- Liczba zgromadzonych punktów (check_loyalty_points)
+	
+	--prawidłowe wywołanie
+	EXEC [dbo].[check_loyalty_points] 
+	@client_ID = 15
+
+	--klient nie istnieje
+	EXEC [dbo].[check_loyalty_points] 
+	@client_ID = 470;
 
 
 

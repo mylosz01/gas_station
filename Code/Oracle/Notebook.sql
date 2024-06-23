@@ -84,3 +84,5 @@ SELECT * FROM DOSTAWCY_SPOZYWCZY;
 select id_produktu,cena_jednostkowa From produkty_spozywcze;
 
 SELECT * FROM PRODUKTY_SPOZYWCZE;
+
+SELECT * FROM ZAMOWIENIA_SPOZYWCZE;

@@ -194,38 +194,38 @@ SELECT CURRENT_USER;
 
 
 
-----Ustawienie ceny paliwa - testowanie
+--Ustawienie ceny paliwa - testowanie
 
---DECLARE @petrol_name varchar(20);
---declare @new_price NUMERIC(8,2);
+DECLARE @petrol_name varchar(20);
+declare @new_price NUMERIC(8,2);
 
---Set @petrol_name = 'LPG';
---SET @new_price = 2.25;
+Set @petrol_name = 'LPG';
+SET @new_price = 2.25;
 
---EXECUTE (
---    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_PRICE(:pertol_name, :new_price); END;',
---    @petrol_name, @new_price
---) AT ZaopatrzenieOracle;
---GO
-
-
---SELECT * FROM dbo.petrol_prices;
---GO
+EXECUTE (
+    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_PRICE(:pertol_name, :new_price); END;',
+    @petrol_name, @new_price
+) AT ZaopatrzenieOracle;
+GO
 
 
-----Ustawienie punktów za dane paliwo -testowanie
+SELECT * FROM dbo.petrol_prices;
+GO
 
---DECLARE @petrol_name varchar(20);
---declare @new_points INT;
 
---Set @petrol_name = 'LPG';
---SET @new_points = 3;
+--Ustawienie punktów za dane paliwo -testowanie
 
---EXECUTE (
---    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_POINTS(:pertol_name, :new_price); END;',
---    @petrol_name, @new_points
---) AT ZaopatrzenieOracle;
---GO
+DECLARE @petrol_name varchar(20);
+declare @new_points INT;
+
+Set @petrol_name = 'LPG';
+SET @new_points = 3;
+
+EXECUTE (
+    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_POINTS(:pertol_name, :new_price); END;',
+    @petrol_name, @new_points
+) AT ZaopatrzenieOracle;
+GO
 
 
 --Dodanie transakcji paliwa

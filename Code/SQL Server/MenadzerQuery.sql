@@ -22,6 +22,45 @@ SELECT * FROM dbo.products_stock;
 
 
 
+--Ustawienie ceny paliwa
+
+DECLARE @petrol_name varchar(20);
+declare @new_price NUMERIC(8,2);
+
+Set @petrol_name = 'LPG';
+SET @new_price = 2.25;
+
+EXECUTE (
+    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_PRICE(:pertol_name, :new_price); END;',
+    @petrol_name, @new_price
+) AT ZaopatrzenieOracle;
+GO
+
+
+SELECT * FROM dbo.petrol_prices;
+GO
+
+
+--Ustawienie punktów za dane paliwo -testowanie
+
+DECLARE @petrol_name varchar(20);
+declare @new_points INT;
+
+Set @petrol_name = 'benzyna 95';
+SET @new_points = 5;
+
+EXECUTE (
+    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_POINTS(:pertol_name, :new_price); END;',
+    @petrol_name, @new_points
+) AT ZaopatrzenieOracle;
+GO
+
+
+SELECT * FROM dbo.petrol_prices;
+GO
+
+
+
 -- Ustalenie nowej ceny produktu (set_product_price)
 	
 	-- prawidlowe wywolanie

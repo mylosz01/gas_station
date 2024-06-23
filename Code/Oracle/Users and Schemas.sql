@@ -61,13 +61,34 @@
      /*Klient*/
      CREATE USER KlientOracle IDENTIFIED BY 123;
     
-        GRANT CREATE SESSION TO KlientOracle;
-        GRANT CONNECT TO KlientOracle;
+     GRANT CREATE SESSION TO KlientOracle;
+     GRANT CONNECT TO KlientOracle;
         
-        GRANT SELECT ON ADMINISTRATORORACLE.KLIENCI TO KlienciOracle;
-     
-     
+     GRANT SELECT ON ADMINISTRATORORACLE.KLIENCI TO KlientOracle;
+        
      /*Klient*/
+     
+     
+     /*Zarzad*/
+     
+     CREATE USER ZarzadOracle IDENTIFIED BY 123;
+    
+     GRANT CREATE SESSION TO ZarzadOracle;
+     GRANT CONNECT TO ZarzadOracle;
+     
+     GRANT SELECT ON ADMINISTRATORORACLE.HISTORIA_CEN_PALIW TO ZarzadOracle;
+     GRANT SELECT ON ADMINISTRATORORACLE.KLIENCI TO ZarzadOracle;
+     GRANT SELECT ON ADMINISTRATORORACLE.PALIWA TO ZarzadOracle;
+     GRANT SELECT ON ADMINISTRATORORACLE.PRODUKTY_SPOZYWCZE TO ZarzadOracle;
+     GRANT SELECT ON ADMINISTRATORORACLE.TYP_PALIWA TO ZarzadOracle;
+     
+     GRANT SELECT ON MYJNIA.ROZSZERZONE_TRANSAKCJE_MYJNI TO ZarzadOracle;
+     
+     GRANT EXECUTE ON ADMINISTRATORORACLE.update_petrol_points TO ZarzadOracle;
+     GRANT EXECUTE ON ADMINISTRATORORACLE.update_petrol_price TO ZarzadOracle;
+     
+     /*Zarzad*/
+     
     
     
 
@@ -103,4 +124,5 @@ USING '(DESCRIPTION =
       (SID = orcl)
     )
   )';
+  
 

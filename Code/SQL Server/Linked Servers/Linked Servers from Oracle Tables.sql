@@ -75,6 +75,14 @@ EXEC master.dbo.sp_addlinkedsrvlogin
 	@rmtuser = N'PracownikOracle', 
     @rmtpassword = N'123'
 
+EXEC master.dbo.sp_addlinkedsrvlogin
+    @rmtsrvname = N'ZaopatrzenieOracle',
+	@useself = N'False',
+    @locallogin = N'Zarzad',
+	@rmtuser = N'ZarzadOracle', 
+    @rmtpassword = N'123'
+
+
 
 -- do wywoływania procedur z Oracle na SQL Serverze
 USE [master]

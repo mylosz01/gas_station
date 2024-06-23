@@ -1,4 +1,4 @@
-/* Administrator */
+﻿/* Administrator */
 
 USE [master]
 GO
@@ -109,4 +109,41 @@ GRANT EXECUTE ON [dbo].[client_products_transaction_history] TO Klient
 /* Klient */
 
 /*Zarzad*/
+USE [master]
+GO
+CREATE LOGIN [Zarzad] WITH PASSWORD=N'123', DEFAULT_DATABASE=[StacjaPaliw], CHECK_EXPIRATION=ON, CHECK_POLICY=ON
+GO
+
+USE [StacjaPaliw]
+GO
+CREATE USER [Zarzad] FOR LOGIN [Zarzad] WITH DEFAULT_SCHEMA=[dbo]
+GO
+
+GRANT SELECT ON HARMONOGRAM TO ZARZAD;
+GRANT SELECT ON TRANSAKCJE_PALIWOWE TO ZARZAD;
+GRANT SELECT ON TRANSAKCJE_SPOZYWCZE TO ZARZAD;
+
+GRANT SELECT ON dbo.show_employees TO ZARZAD;
+GO
+GRANT SELECT ON dbo.petrol_prices TO ZARZAD;
+GO
+GRANT SELECT ON [dbo].[petrol_stock] TO ZARZAD;
+GO
+GRANT SELECT ON [dbo].[products_prices] TO ZARZAD;
+GO
+GRANT SELECT ON [dbo].[products_stock] TO ZARZAD;
+GO
+
+GRANT SELECT ON [dbo].[view_price_history] TO ZARZAD;
+
+GRANT EXECUTE ON [dbo].[show_transaction_analize_daily_fuel] TO ZARZAD;
+GRANT EXECUTE ON [dbo].[show_transaction_analize_products_daily] TO ZARZAD;
+GRANT EXECUTE ON [dbo].[show_number_of_new_customer] TO ZARZAD;
+GRANT EXECUTE ON [dbo].[update_price_of_fuel] TO ZARZAD;
+GRANT EXECUTE ON [dbo].[update_points_of_fuel] TO ZARZAD;
+GRANT EXECUTE ON [dbo].[show_statistic_car_wash] TO ZARZAD;
+GRANT EXECUTE ON [dbo].[show_employee_hours] TO ZARZAD;
+GRANT EXECUTE ON [dbo].[show_employee_works_all] TO ZARZAD;
+GRANT EXECUTE ON [dbo].[show_history_of_fuel_price] TO ZARZAD;
+
 /*Zarzad*/

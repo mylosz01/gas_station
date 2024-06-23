@@ -72,6 +72,14 @@
 	@rmtpassword = N'';
 	GO
 
+	EXEC sp_addlinkedsrvlogin 
+	@rmtsrvname = N'Pracownicy', 
+	@locallogin = N'Zarzad', 
+	@useself = N'False', 
+	@rmtuser = N'admin', 
+	@rmtpassword = N'';
+	GO
+
 
 	--	USE [master]
 	--GO

@@ -53,35 +53,145 @@ FROM OPENROWSET('Microsoft.ACE.OLEDB.16.0',
 SELECT CURRENT_USER;
 
 --Dodanie pracownika (Excel)
-EXEC [dbo].[hire_employee]
-@emp_ID = 15,
-@name = 'Stefan',
-@surname = 'Wisniewski',
-@phone_number = '428624798',
-@salary = 15;
+-- Zatrudnianie pracownika (hire_employee)
+		
+		--prawidłowe wywołanie
+		EXEC [dbo].[hire_employee]
+		@emp_ID = 225,
+		@name = 'Alina',
+		@surname = 'Nowak',
+		@phone_number = '428624798',
+		@salary = 15;
 
-SELECT * FROM OPENQUERY(Pracownicy,'Select * from [Pracownicy$]');
+		SELECT * FROM dbo.show_employees;
 
--- Stwórz zamówienie paliwowe - testowanie
-EXEC dbo.make_petrol_order
-@petrol_name = 'benzyna 95',
-@provider_ID  = '20',
-@petrol_amout = 250,
-@delivery_cost = 2225.00
+		--pensja ujemna
+		EXEC [dbo].[hire_employee]
+		@emp_ID = 230,
+		@name = 'Robert',
+		@surname = 'Nowicki',
+		@phone_number = '521798628',
+		@salary = -15;
 
-SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+		SELECT * FROM dbo.show_employees;
+
+		--pracownik z danym ID już istnieje
+		EXEC [dbo].[hire_employee]
+		@emp_ID = 1,
+		@name = 'Robert',
+		@surname = 'Nowicki',
+		@phone_number = '521798628',
+		@salary = 15;
+		
+		SELECT * FROM dbo.show_employees;
+
+-- Stwórz zamówienie paliwowe (make_petrol_order)
+	
+	--prawidłowe wywołanie
+	EXEC dbo.make_petrol_order
+	@petrol_name = 'benzyna 95',
+	@provider_ID  = 1,
+	@petrol_amout = 250,
+	@delivery_cost = 2225.00
+
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+
+	--ilość paliwa wartość ujemna
+	EXEC dbo.make_petrol_order
+	@petrol_name = 'benzyna 95',
+	@provider_ID  = 1,
+	@petrol_amout = -250,
+	@delivery_cost = 2225.00
+
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+
+	--cena dostawy wartość ujemna
+	EXEC dbo.make_petrol_order
+	@petrol_name = 'benzyna 95',
+	@provider_ID  = 1,
+	@petrol_amout = 250,
+	@delivery_cost = -2225.00
+
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+
+	--paliwo o danej nazwie nie istnieje
+	EXEC dbo.make_petrol_order
+	@petrol_name = 'a',
+	@provider_ID  = 1,
+	@petrol_amout = 250,
+	@delivery_cost = 2225.00
+
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+
+	--dostawca o podanym ID nie istnieje
+	EXEC dbo.make_petrol_order
+	@petrol_name = 'benzyna 95',
+	@provider_ID  = 20,
+	@petrol_amout = 250,
+	@delivery_cost = 2225.00
+
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."DOSTAWCY_PALIWOWI";
+
+	--zamowiono za duzo paliwa (ponad wartosc max)
+	EXEC dbo.make_petrol_order
+	@petrol_name = 'benzyna 95',
+	@provider_ID  = 1,
+	@petrol_amout = 750,
+	@delivery_cost = 2225.00
+
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+	SELECT * FROM dbo.petrol_stock
+
 
 -- Stwórz zamówienie spożywcze
-EXEC dbo.make_product_order
-@product_name = 'Gasnica',
-@provider_ID = 9,
-@amount = 15,
-@delivery_cost = 685.00
+	
+	--prawidłowe wywołanie
+	EXEC dbo.make_product_order
+	@product_name = 'Gasnica',
+	@provider_ID = 9,
+	@amount = 15,
+	@delivery_cost = 685.00
 
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."ZAMOWIENIA_SPOZYWCZE";
 
-SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_spozywcze');
-DELETE FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_spozywcze')
-WHERE ID_ZAMOWIENIA = 61;
+	--ilość produktów wartośc ujemna
+	EXEC dbo.make_product_order
+	@product_name = 'Gasnica',
+	@provider_ID = 9,
+	@amount = -15,
+	@delivery_cost = 685.00
+
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."ZAMOWIENIA_SPOZYWCZE";
+
+	--koszt dostawy wartość ujemna
+	EXEC dbo.make_product_order
+	@product_name = 'Gasnica',
+	@provider_ID = 9,
+	@amount = 15,
+	@delivery_cost = -685.00
+
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."ZAMOWIENIA_SPOZYWCZE";
+
+	--produkt o danej nazwie nie istnieje
+	EXEC dbo.make_product_order
+	@product_name = 'bbb',
+	@provider_ID = 9,
+	@amount = 15,
+	@delivery_cost = 685.00
+
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."ZAMOWIENIA_SPOZYWCZE";
+
+	--dostawca o danym ID nie istnieje
+	EXEC dbo.make_product_order
+	@product_name = 'Gasnica',
+	@provider_ID = 25,
+	@amount = 15,
+	@delivery_cost = 685.00
+
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."ZAMOWIENIA_SPOZYWCZE";
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."DOSTAWCY_SPOZYWCZY";
+
 
 
 --Ustawienie ceny paliwa - testowanie
@@ -253,6 +363,8 @@ GO
 
 -- Dodanie transakcji produktu -- testowanie
 
+-- Dodanie transakcji produktu -- testowanie
+
 select * from ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PRODUKTY_SPOZYWCZE"
 SELECT * FROM products_stock;
 SELECT * FROM products_prices;
@@ -292,7 +404,7 @@ SELECT * FROM products_prices;
 
 	SET @clientID = 10;
 	SET @productID = 2;
-	SET @amount_set = 3;
+	SET @amount_set = -3;
 
 	EXEC dbo.add_product_transaction
 	@client_ID = @clientID,
@@ -308,7 +420,7 @@ SELECT * FROM products_prices;
 	DECLARE @productID INT;
 	DECLARE @amount_set INT;
 
-	SET @clientID = 225;
+	SET @clientID = 270;
 	SET @productID = 2;
 	SET @amount_set = 3;
 
@@ -339,6 +451,8 @@ SELECT * FROM products_prices;
 
 	SELECT * FROM products_stock;
 
+
+
 	--zamowienie na wiecej produktow niz jest na stanie
 	DECLARE @clientID INT;
 	DECLARE @productID INT;
@@ -358,7 +472,8 @@ SELECT * FROM products_prices;
 
 
 
---client_petrol_transaction_history --testowanie
+
+--client_petrol_transaction_history
 SELECT ID_paliwa,kwota_transakcji,ilosc_paliwa,data_transakcji FROM Transakcje_paliwowe WHERE ID_klienta = 10;
 
 EXEC dbo.client_petrol_transaction_history
@@ -472,6 +587,7 @@ SELECT * FROM petrol_stock;
 	GO
 
 	SELECT * FROM products_prices;
+
 	--produkt nie istnieje
 	DECLARE @product_name varchar(40);
 	declare @new_points INT;
@@ -486,3 +602,197 @@ SELECT * FROM petrol_stock;
 	GO
 
 	SELECT * FROM products_prices;
+
+--Dodanie pracownika na zmianie
+		--poprawne dodanie
+		exec dbo.add_shift_employee @id_emp = 2, @shift_date = '2024-08-27 15:00:00';
+		
+		SELECT * FROM HARMONOGRAM
+		ORDER BY ID_WPISU DESC;
+		
+		--za dużo pracowników na zmianie
+		exec dbo.add_shift_employee @id_emp = 2, @shift_date = '2024-06-27 15:00:00';
+		
+		SELECT * FROM HARMONOGRAM
+		ORDER BY ID_WPISU DESC;
+
+		--Czy pracownik jest w bazie danych
+		exec dbo.add_shift_employee @id_emp = 430, @shift_date = '2024-09-27 15:00:00';
+		
+		SELECT * FROM HARMONOGRAM
+		ORDER BY ID_WPISU DESC;
+
+		--Czy prawidlowy czas zmiany (odstęp pomiędzy zmianami)
+		exec dbo.add_shift_employee @id_emp = 2, @shift_date = '2024-08-27 16:00:00';
+		
+		SELECT * FROM HARMONOGRAM
+		ORDER BY ID_WPISU DESC;
+
+
+
+-- Usuwanie pracownika ze zmiany
+	-- prawidłowe ID zmiany
+	EXEC dbo.delete_employee_shift @shift_id = 48;
+
+	SELECT * FROM HARMONOGRAM WHERE ID_WPISU =48;
+
+	-- nieprawidłowe ID zmiany
+	EXEC dbo.delete_employee_shift @shift_id = 48;
+
+	SELECT * FROM HARMONOGRAM WHERE ID_WPISU =48;
+
+
+
+-- Wyświetlanie zmian danego pracownika
+	
+	-- pracownik istnieje
+	EXEC dbo.show_employee_schedule @emp_id = 2;
+
+	select * from harmonogram where ID_pracownika = 2;
+
+	--pracownik nie istnieje
+	EXEC dbo.show_employee_schedule @emp_id = 284;
+
+	select * from harmonogram where ID_pracownika = 284;
+
+
+
+-- Rejestrowanie nowego klienta (register_client)
+
+	EXEC [dbo].[register_client]
+	@name = 'Adrian',
+	@surname = 'Stefanowski',
+	@email = 'adrianstefanowski@gmail.com';
+
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."KLIENCI";
+
+
+
+-- Aktualizacja stanu paliwa (update_petrol_stock)
+	
+	--prawidłowe wywołanie
+	DECLARE @petrol_name varchar(40);
+	declare @new_stock INT;
+
+	Set @petrol_name = 'benzyna 95';
+	SET @new_stock = 750;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_STOCK(:petrol_name, :new_stock); END;',
+		@petrol_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM petrol_stock;
+
+
+	--ujemna ilość paliwa
+	DECLARE @petrol_name varchar(40);
+	declare @new_stock INT;
+
+	Set @petrol_name = 'benzyna 95';
+	SET @new_stock = -750;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_STOCK(:petrol_name :new_stock); END;',
+		@petrol_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM petrol_stock;
+
+	--nieprawidłowa nazwa paliwa
+	DECLARE @petrol_name varchar(40);
+	declare @new_stock INT;
+
+	Set @petrol_name = 'aaa';
+	SET @new_stock = 750;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_STOCK(:petrol_name, :new_stock); END;',
+		@petrol_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM petrol_stock;
+
+	--paliwo ponad limit
+	DECLARE @petrol_name varchar(40);
+	declare @new_stock INT;
+
+	Set @petrol_name = 'benzyna 95';
+	SET @new_stock = 1750;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_STOCK(:petrol_name, :new_stock); END;',
+		@petrol_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM petrol_stock;
+
+
+
+-- Aktualizacja stanu produktu (update_product_stock)
+	
+	--prawidłowe wywołanie
+	DECLARE @product_name varchar(40);
+	declare @new_stock INT;
+
+	Set @product_name = 'Hot-dog duzy';
+	SET @new_stock = 25;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PRODUCT_STOCK(:product_name, :new_stock); END;',
+		@product_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_stock;
+
+	--ujemna ilość produktu
+	DECLARE @product_name varchar(40);
+	declare @new_stock INT;
+
+	Set @product_name = 'Hot-dog duzy';
+	SET @new_stock = -25;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PRODUCT_STOCK(:product_name, :new_stock); END;',
+		@product_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_stock;
+	
+	--Nieprawidłowa nazwa produktu
+	DECLARE @product_name varchar(40);
+	declare @new_stock INT;
+
+	Set @product_name = 'bbb';
+	SET @new_stock = 25;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PRODUCT_STOCK(:product_name, :new_stock); END;',
+		@product_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_stock;
+
+
+
+
+-- Liczba zgromadzonych punktów (check_loyalty_points)
+	
+	--prawidłowe wywołanie
+	EXEC [dbo].[check_loyalty_points] 
+	@client_ID = 15
+
+	--klient nie istnieje
+	EXEC [dbo].[check_loyalty_points] 
+	@client_ID = 470;
+
+
+
+

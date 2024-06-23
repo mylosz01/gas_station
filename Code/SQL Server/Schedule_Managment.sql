@@ -17,8 +17,6 @@ CREATE TABLE Harmonogram
 	--sprawdzenie istnienia odpowiadaj¹cych wartoœci nale¿y zrealizowaæ programowo za pomoc¹ triggerów
 );
 
-Select * From Pracownicy...[Pracownicy$];
-
 
 -- SELECT employee schedule
 SELECT * FROM Harmonogram;
@@ -97,7 +95,7 @@ BEGIN
 	-- if emp not exist return 0
 	IF @isValid = 0
 	BEGIN	
-		RETURN -1;
+		RETURN 0;
 	END;
 
 	-- implement cursor to check shifts

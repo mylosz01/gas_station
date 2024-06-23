@@ -144,8 +144,80 @@ BEGIN
     dbms_output.put_line('Ilosc punktow dla danego produktu zostala zaktualizowana');
 END;
 
+CREATE OR REPLACE PROCEDURE update_product_stock
+    (product_name IN VARCHAR2, new_stock IN INTEGER)
+IS
+    product_exist INT;
+BEGIN
+    
+    IF new_stock < 0 THEN
+        raise_application_error(-20001,'Ilosc produktow na stanie nie moze byc wartoscia ujemna');
+        RETURN;
+    END IF;
 
-SELECT * FROM PRODUKTY_SPOZYWCZE;
+    SELECT COUNT(*) INTO product_exist FROM produkty_spozywcze
+    WHERE NAZWA = product_name;
+    
+    IF product_exist = 0 THEN
+       raise_application_error(-20001,'Nieprawidlowa nazwa produktu');
+       RETURN; 
+    END IF;
+    
+    UPDATE Produkty_spozywcze SET ILOSC_NA_STANIE = new_stock
+    WHERE NAZWA = product_name;
+END;
+
+
+
+CREATE OR REPLACE Procedure update_petrol_stock
+    (petrol_name IN varchar2, new_stock IN NUMBER)
+IS
+    petrol_name_exist INTEGER;
+    petrol_id INTEGER;
+    new_points_id INTEGER;
+    restock_validate INTEGER;
+BEGIN
+
+    IF new_stock < 0 THEN
+        raise_application_error(-20001,'Ilosc paliwa na stanie nie moze byc wartoscia ujemna');
+        RETURN;
+    END IF;
+    
+    SELECT COUNT(p.id_paliwa) INTO petrol_name_exist FROM paliwa p
+    JOIN historia_cen_paliw hcp using(id_ceny)
+    JOIN typ_paliwa tp using(id_typu)
+    WHERE tp.nazwa_paliwa = petrol_name;
+    
+    IF petrol_name_exist = 0 THEN
+       raise_application_error(-20001,'Nieprawidlowa nazwa paliwa');
+       RETURN;
+    END IF;
+    
+    SELECT p.id_paliwa INTO petrol_id FROM paliwa p
+    JOIN historia_cen_paliw hcp using(id_ceny)
+    JOIN typ_paliwa tp using(id_typu)
+    WHERE tp.nazwa_paliwa = petrol_name;
+    
+    SELECT (MAKSYMALNA_ILOSC - new_stock) INTO restock_validate FROM ADMINISTRATORORACLE.PALIWA
+    WHERE ID_PALIWA = petrol_id;
+    
+    IF restock_validate < 0 THEN
+       raise_application_error(-20001,'Nowy stan paliwa nie moze przekraczac wartosci maksymalnej');
+       RETURN;
+    END IF;   
+    
+    UPDATE Paliwa SET ilosc_w_litrach = new_stock
+    WHERE ID_paliwa = petrol_id;
+    
+    COMMIT;
+    
+    dbms_output.put_line('Stan danego paliwa zostal zaktualizowany');
+END;
+
+SELECT * FROM paliwa;
+
+
+
 
 
 

@@ -44,14 +44,49 @@ EXEC master.dbo.sp_addlinkedsrvlogin
     @rmtsrvname = N'ZaopatrzenieOracle',
 	@useself = N'False',
     @locallogin = N'sa',
-	@rmtuser = N'AdministratorOracle', --wykorzystujemy dane logowania z Oracle (musimy daæ false, ¿eby da³o siê zamapowaæ konto)
+	@rmtuser = N'AdministratorOracle',
     @rmtpassword = N'123'
 
 EXEC master.dbo.sp_addlinkedsrvlogin
     @rmtsrvname = N'ZaopatrzenieOracle',
 	@useself = N'False',
     @locallogin = N'Administrator',
-	@rmtuser = N'AdministratorOracle', --wykorzystujemy dane logowania z Oracle (musimy daæ false, ¿eby da³o siê zamapowaæ konto)
+	@rmtuser = N'AdministratorOracle', 
+    @rmtpassword = N'123'
+
+EXEC master.dbo.sp_addlinkedsrvlogin
+    @rmtsrvname = N'ZaopatrzenieOracle',
+	@useself = N'False',
+    @locallogin = N'Menadzer',
+	@rmtuser = N'MenadzerOracle', 
+    @rmtpassword = N'123'
+
+EXEC master.dbo.sp_addlinkedsrvlogin
+    @rmtsrvname = N'ZaopatrzenieOracle',
+	@useself = N'False',
+    @locallogin = N'Pracownik',
+	@rmtuser = N'PracownikOracle', 
+    @rmtpassword = N'123'
+
+EXEC master.dbo.sp_addlinkedsrvlogin
+    @rmtsrvname = N'ZaopatrzenieOracle',
+	@useself = N'False',
+    @locallogin = N'Klient',
+	@rmtuser = N'Klient', 
+    @rmtpassword = N'123'
+
+EXEC master.dbo.sp_addlinkedsrvlogin
+    @rmtsrvname = N'ZaopatrzenieOracle',
+	@useself = N'False',
+    @locallogin = N'Zarzad',
+	@rmtuser = N'ZarzadOracle', 
+    @rmtpassword = N'123'
+
+EXEC master.dbo.sp_addlinkedsrvlogin
+    @rmtsrvname = N'ZaopatrzenieOracle',
+	@useself = N'False',
+    @locallogin = N'AdministratorZarzad',
+	@rmtuser = N'ZarzadOracle', 
     @rmtpassword = N'123'
 
 

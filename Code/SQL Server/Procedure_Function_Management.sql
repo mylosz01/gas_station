@@ -1,4 +1,4 @@
-USE StacjaZarzad;
+ï»¿USE StacjaZarzad;
 GO
 
 SELECT * FROM Transakcje_paliwowe;
@@ -43,7 +43,7 @@ EXEC show_transaction_analize_products_daily @product_id = 3;
 -- show history of specific fuel price
 CREATE OR ALTER VIEW view_price_history
 AS
-	SELECT ID_TYPU, DATA_CENY, CENA FROM OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM historia_cen_paliw');
+	SELECT ID_TYPU, DATA_CENY, CENA FROM OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM ADMINISTRATORORACLE.historia_cen_paliw');
 
 
 CREATE OR ALTER PROCEDURE show_history_of_fuel_price(
@@ -93,7 +93,7 @@ BEGIN
 	DECLARE @sql NVARCHAR(MAX);
 	SET @sql = N'
 BEGIN 
-    update_petrol_price(''' + @fuel_name + ''', ' + CAST(@new_price AS NVARCHAR) + '); 
+    ADMINISTRATORORACLE.update_petrol_price(''' + @fuel_name + ''', ' + CAST(@new_price AS NVARCHAR) + '); 
 END;';
 	EXECUTE(@sql) AT [ZaopatrzenieOracle]
 END;
@@ -111,22 +111,24 @@ BEGIN
 	DECLARE @sql NVARCHAR(MAX);
 	SET @sql = N'
 BEGIN 
-    update_petrol_points(''' + @fuel_name + ''', ' + CAST(@new_points AS NVARCHAR) + '); 
+    ADMINISTRATORORACLE.update_petrol_points(''' + @fuel_name + ''', ' + CAST(@new_points AS NVARCHAR) + '); 
 END;';
 	EXECUTE(@sql) AT [ZaopatrzenieOracle]
 END;
+GO
 
-EXEC update_points_of_fuel @fuel_name = 'benzyna 95', @new_points = 99;
+EXEC update_points_of_fuel @fuel_name = 'benzyna 95', @new_points = 5;
 
 -- show statistic about car wash
 CREATE OR ALTER PROCEDURE show_statistic_car_wash
 AS
 BEGIN
 	SELECT NAZWA_PROGRAMU, COUNT(NAZWA_PROGRAMU) AS NumberOfTransaction, DATA_TRANSAKCJI
-	FROM OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM ROZSZERZONE_TRANSAKCJE_MYJNI')
+	FROM OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM MYJNIA.ROZSZERZONE_TRANSAKCJE_MYJNI')
 	GROUP BY NAZWA_PROGRAMU, DATA_TRANSAKCJI
 	ORDER BY DATA_TRANSAKCJI DESC, NAZWA_PROGRAMU ASC;
 END;
+GO
 
 EXEC show_statistic_car_wash;
 
@@ -138,16 +140,17 @@ BEGIN
 	
 	SELECT Prac.imie, Prac.Nazwisko, 
 	SUM(DATEDIFF(HOUR,data_rozpoczecia_zmiany,data_zakonczenia_zmiany)) AS TotalHourWork,
-	SUM(DATEDIFF(HOUR,data_rozpoczecia_zmiany,data_zakonczenia_zmiany)) * Prac.[pensja za godzinê] AS EstimatedSalary,
+	SUM(DATEDIFF(HOUR,data_rozpoczecia_zmiany,data_zakonczenia_zmiany)) * Prac.[pensja za godzinÄ™] AS EstimatedSalary,
 	YEAR(data_rozpoczecia_zmiany) AS 'YEAR', MONTH(data_rozpoczecia_zmiany) AS 'Month'
 	FROM Harmonogram AS Harm
 	JOIN Pracownicy...[Pracownicy$] AS Prac
 	ON Prac.Id_pracownika = Harm.ID_pracownika
 	WHERE Harm.ID_pracownika = @emp_id
-	GROUP BY Prac.imie, Prac.Nazwisko, Prac.ID_pracownika,Prac.[pensja za godzinê],
+	GROUP BY Prac.imie, Prac.Nazwisko, Prac.ID_pracownika,Prac.[pensja za godzinÄ™],
 	YEAR(data_rozpoczecia_zmiany), MONTH(data_rozpoczecia_zmiany);
 
 END;
+GO
 
 EXEC show_employee_hours @emp_id = 1;
 
@@ -159,11 +162,11 @@ BEGIN
 	SELECT temp.Year_, temp.Month_, SUM(temp.EstimatedSalary) AS TotalPaidPerMonth
 	FROM (
 		SELECT YEAR(data_rozpoczecia_zmiany) AS Year_, MONTH(data_rozpoczecia_zmiany) AS Month_,
-		SUM(DATEDIFF(HOUR,data_rozpoczecia_zmiany,data_zakonczenia_zmiany)) * Prac.[pensja za godzinê] AS EstimatedSalary
+		SUM(DATEDIFF(HOUR,data_rozpoczecia_zmiany,data_zakonczenia_zmiany)) * Prac.[pensja za godzinÄ™] AS EstimatedSalary
 		FROM Harmonogram AS Harm
 		JOIN Pracownicy...[Pracownicy$] AS Prac
 		ON Prac.Id_pracownika = Harm.ID_pracownika
-		GROUP BY Prac.[pensja za godzinê],
+		GROUP BY Prac.[pensja za godzinÄ™],
 		YEAR(data_rozpoczecia_zmiany), MONTH(data_rozpoczecia_zmiany)) AS temp
 		GROUP BY temp.Year_, temp.Month_;
 

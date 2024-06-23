@@ -23,7 +23,7 @@ CREATE VIEW petrol_stock AS
 Select p.ID_paliwa,tp.nazwa_paliwa,p.ilosc_w_litrach,p.maksymalna_ilosc, ROUND((p.ilosc_w_litrach/p.maksymalna_ilosc * 100),2) as procent
 FROM
 ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PALIWA" p
-LEFT JOIN OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM HISTORIA_CEN_PALIW') hcp
+LEFT JOIN OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM ADMINISTRATORORACLE.Historia_cen_paliw') hcp
 ON p.ID_ceny = hcp.ID_ceny
 LEFT JOIN ZaopatrzenieOracle.."ADMINISTRATORORACLE"."TYP_PALIWA" tp
 ON tp.ID_typu = hcp.ID_typu;

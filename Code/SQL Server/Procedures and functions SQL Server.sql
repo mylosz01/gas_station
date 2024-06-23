@@ -94,6 +94,12 @@ AS
 	DECLARE @max_petrol_amount INT
 BEGIN
 
+	IF @petrol_amout < 0
+	BEGIN
+		RAISERROR('Ilosc paliwa nie moze byc wartoscia ujemna',16,1);
+		RETURN;
+	END
+
 	IF @delivery_cost < 0
 	BEGIN
 		RAISERROR('Cena dostawy nie moze byc wartoscia ujemna',16,1);
@@ -119,9 +125,9 @@ BEGIN
 
 	SELECT @current_petrol_amount = p.ilosc_w_litrach,@max_petrol_amount = p.maksymalna_ilosc,@price_ID = p.ID_ceny
 	FROM
-	OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM PALIWA') AS p
-	LEFT JOIN OPENQUERY(ZaopatrzenieOracle, 'Select * from HISTORIA_CEN_PALIW') as hcp ON p.ID_ceny=hcp.ID_ceny
-	LEFT JOIN OPENQUERY(ZaopatrzenieOracle, 'SELECT * FROM TYP_PALIWA') as tp ON hcp.ID_typu = tp.ID_typu
+	OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM ADMINISTRATORORACLE.PALIWA') AS p
+	LEFT JOIN OPENQUERY(ZaopatrzenieOracle, 'Select * from ADMINISTRATORORACLE.HISTORIA_CEN_PALIW') as hcp ON p.ID_ceny=hcp.ID_ceny
+	LEFT JOIN OPENQUERY(ZaopatrzenieOracle, 'SELECT * FROM ADMINISTRATORORACLE.TYP_PALIWA') as tp ON hcp.ID_typu = tp.ID_typu
 	WHERE tp.nazwa_paliwa = @petrol_name
 	OPTION (RECOMPILE)
 
@@ -132,7 +138,7 @@ BEGIN
 		RETURN;
 	END
 
-	INSERT INTO OPENQUERY(ZaopatrzenieOracle,'Select ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy FROM ZAMOWIENIA_PALIWOWE')
+	INSERT INTO OPENQUERY(ZaopatrzenieOracle,'Select ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy FROM ADMINISTRATORORACLE.ZAMOWIENIA_PALIWOWE')
 	VALUES
 	(@price_ID,@provider_ID,GETDATE(),@petrol_amout,@delivery_cost)
 	OPTION (RECOMPILE);
@@ -157,13 +163,20 @@ AS
 	DECLARE @provider_exist INT
 	DECLARE @product_ID INT
 BEGIN
+	
+	IF @amount < 0
+	BEGIN
+		RAISERROR('Ilosc paliwa nie moze byc wartoscia ujemna',16,1);
+		RETURN;
+	END
+
 	IF @delivery_cost < 0
 	BEGIN
 		RAISERROR('Cena dostawy nie moze byc wartoscia ujemna',16,1);
 		RETURN;
 	END
 
-	SELECT @product_exist = COUNT(ID_produktu) FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Produkty_Spozywcze')
+	SELECT @product_exist = COUNT(ID_produktu) FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PRODUKTY_SPOZYWCZE"
 	WHERE nazwa = @product_name;
 
 	IF @product_exist = 0
@@ -172,11 +185,11 @@ BEGIN
 		RETURN;
 	END
 
-	SELECT @provider_exist = COUNT(ID_dostawcy) FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Dostawcy_spozywczy')
+	SELECT @provider_exist = COUNT(ID_dostawcy) FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."DOSTAWCY_SPOZYWCZY"
 	WHERE ID_DOSTAWCY = @provider_ID;
 
 	SELECT @product_ID = ID_produktu 
-	FROM OPENQUERY(ZaopatrzenieOracle, 'Select * from Produkty_spozywcze')
+	FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PRODUKTY_SPOZYWCZE"
 	WHERE nazwa = @product_name;
 
 	IF @provider_exist = 0
@@ -185,7 +198,7 @@ BEGIN
 		RETURN;
 	END
 
-	INSERT INTO OPENQUERY(ZaopatrzenieOracle,'Select ID_produktu,ID_dostawcy,data_zamowienia,ilosc,koszt_dostawy FROM Zamowienia_spozywcze')
+	INSERT INTO OPENQUERY(ZaopatrzenieOracle,'Select ID_produktu,ID_dostawcy,data_zamowienia,ilosc,koszt_dostawy FROM ADMINISTRATORORACLE.Zamowienia_spozywcze')
 	VALUES(@product_ID,@provider_ID,GETDATE(),@amount,@delivery_cost)
 	OPTION (RECOMPILE);
 
@@ -389,6 +402,24 @@ BEGIN
 
 	SELECT * FROM @client_products_transactions;
 END;
+
+
+CREATE PROCEDURE register_client
+(
+	@name VARCHAR(40),
+	@surname VARCHAR(50),
+	@email VARCHAR(50)
+)
+AS
+	DECLARE @sql NVARCHAR(MAX);
+BEGIN
+
+	SET @sql = N'INSERT INTO ADMINISTRATORORACLE.KLIENCI (IMIE,NAZWISKO,E_MAIL,PUNKTY,DATA_ZALOZENIA_KONTA)
+             VALUES ('''+ @name + ''', ''' + @surname + ''', ''' + @email + ''',0,SYSDATE)';
+
+	EXEC (@sql) AT ZaopatrzenieOracle;
+END;
+
 
 
 

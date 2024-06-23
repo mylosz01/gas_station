@@ -56,9 +56,39 @@ GRANT EXECUTE ON [dbo].[show_employee_schedule] TO Menadzer;
 GRANT EXECUTE ON [dbo].[is_shift_valid] TO Menadzer;
 GRANT EXECUTE ON [dbo].[check_employee_on_shift] TO Menadzer;
 
+GRANT SELECT ON [dbo].[Harmonogram] TO Menadzer;
+
 /* Menadzer */
 
 /* Pracownik */
+USE [master]
+GO
+CREATE LOGIN [Pracownik] WITH PASSWORD=N'123', DEFAULT_DATABASE=[StacjaPaliw], CHECK_EXPIRATION=ON, CHECK_POLICY=ON
+GO
+
+USE [StacjaPaliw]
+GO
+CREATE USER [Pracownik] FOR LOGIN [Pracownik] WITH DEFAULT_SCHEMA=[dbo]
+GO
+
+GRANT EXECUTE ON [dbo].[add_product_transaction] TO Pracownik;
+GRANT EXECUTE ON [dbo].[add_petrol_transaction] TO Pracownik;
+GRANT EXECUTE ON [dbo].[make_product_order] TO Pracownik;
+GRANT EXECUTE ON [dbo].[make_petrol_order] TO Pracownik;
+GRANT EXECUTE ON [dbo].[show_employee_schedule] TO Pracownik;
+GRANT EXECUTE ON [dbo].[add_points_to_client] TO Pracownik;
+GRANT EXECUTE ON [dbo].[register_client] TO Pracownik;
+
+GRANT SELECT ON Harmonogram TO Pracownik;
+GRANT SELECT ON Transakcje_spozywcze TO Pracownik;
+GRANT SELECT ON Transakcje_paliwowe TO Pracownik;
+
+GRANT SELECT ON dbo.petrol_prices TO Pracownik;
+GRANT SELECT ON dbo.petrol_stock TO Pracownik;
+GRANT SELECT ON dbo.products_prices TO Pracownik;
+GRANT SELECT ON dbo.products_stock TO Pracownik;
+--GRANT EXECUTE ON [dbo].[register_client] TO Pracownik
+
 /* Pracownik */
 
 /* Klient */

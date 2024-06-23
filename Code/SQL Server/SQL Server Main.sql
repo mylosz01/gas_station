@@ -85,62 +85,147 @@ SELECT CURRENT_USER;
 		
 		SELECT * FROM dbo.show_employees;
 
--- Stwórz zamówienie paliwowe - testowanie
-EXEC dbo.make_petrol_order
-@petrol_name = 'benzyna 95',
-@provider_ID  = '20',
-@petrol_amout = 250,
-@delivery_cost = 2225.00
+-- Stwórz zamówienie paliwowe (make_petrol_order)
+	
+	--prawidłowe wywołanie
+	EXEC dbo.make_petrol_order
+	@petrol_name = 'benzyna 95',
+	@provider_ID  = 1,
+	@petrol_amout = 250,
+	@delivery_cost = 2225.00
 
-SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+
+	--ilość paliwa wartość ujemna
+	EXEC dbo.make_petrol_order
+	@petrol_name = 'benzyna 95',
+	@provider_ID  = 1,
+	@petrol_amout = -250,
+	@delivery_cost = 2225.00
+
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+
+	--cena dostawy wartość ujemna
+	EXEC dbo.make_petrol_order
+	@petrol_name = 'benzyna 95',
+	@provider_ID  = 1,
+	@petrol_amout = 250,
+	@delivery_cost = -2225.00
+
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+
+	--paliwo o danej nazwie nie istnieje
+	EXEC dbo.make_petrol_order
+	@petrol_name = 'a',
+	@provider_ID  = 1,
+	@petrol_amout = 250,
+	@delivery_cost = 2225.00
+
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+
+	--dostawca o podanym ID nie istnieje
+	EXEC dbo.make_petrol_order
+	@petrol_name = 'benzyna 95',
+	@provider_ID  = 20,
+	@petrol_amout = 250,
+	@delivery_cost = 2225.00
+
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."DOSTAWCY_PALIWOWI";
+
+	--zamowiono za duzo paliwa (ponad wartosc max)
+	EXEC dbo.make_petrol_order
+	@petrol_name = 'benzyna 95',
+	@provider_ID  = 1,
+	@petrol_amout = 750,
+	@delivery_cost = 2225.00
+
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_paliwowe');
+	SELECT * FROM dbo.petrol_stock
+
 
 -- Stwórz zamówienie spożywcze
-EXEC dbo.make_product_order
-@product_name = 'Gasnica',
-@provider_ID = 9,
-@amount = 15,
-@delivery_cost = 685.00
+	
+	--prawidłowe wywołanie
+	EXEC dbo.make_product_order
+	@product_name = 'Gasnica',
+	@provider_ID = 9,
+	@amount = 15,
+	@delivery_cost = 685.00
+
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."ZAMOWIENIA_SPOZYWCZE";
+
+	--ilość produktów wartośc ujemna
+	EXEC dbo.make_product_order
+	@product_name = 'Gasnica',
+	@provider_ID = 9,
+	@amount = -15,
+	@delivery_cost = 685.00
+
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."ZAMOWIENIA_SPOZYWCZE";
+
+	--koszt dostawy wartość ujemna
+	EXEC dbo.make_product_order
+	@product_name = 'Gasnica',
+	@provider_ID = 9,
+	@amount = 15,
+	@delivery_cost = -685.00
+
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."ZAMOWIENIA_SPOZYWCZE";
+
+	--produkt o danej nazwie nie istnieje
+	EXEC dbo.make_product_order
+	@product_name = 'bbb',
+	@provider_ID = 9,
+	@amount = 15,
+	@delivery_cost = 685.00
+
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."ZAMOWIENIA_SPOZYWCZE";
+
+	--dostawca o danym ID nie istnieje
+	EXEC dbo.make_product_order
+	@product_name = 'Gasnica',
+	@provider_ID = 25,
+	@amount = 15,
+	@delivery_cost = 685.00
+
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."ZAMOWIENIA_SPOZYWCZE";
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."DOSTAWCY_SPOZYWCZY";
 
 
-SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_spozywcze');
-DELETE FROM OPENQUERY(ZaopatrzenieOracle,'Select * from Zamowienia_spozywcze')
-WHERE ID_ZAMOWIENIA = 61;
 
-SELECT COUNT(ID_pracownika) FROM Pracownicy...[Pracownicy$] WHERE ID_pracownika = 450;
+----Ustawienie ceny paliwa - testowanie
 
+--DECLARE @petrol_name varchar(20);
+--declare @new_price NUMERIC(8,2);
 
---Ustawienie ceny paliwa - testowanie
+--Set @petrol_name = 'LPG';
+--SET @new_price = 2.25;
 
-DECLARE @petrol_name varchar(20);
-declare @new_price NUMERIC(8,2);
-
-Set @petrol_name = 'LPG';
-SET @new_price = 2.25;
-
-EXECUTE (
-    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_PRICE(:pertol_name, :new_price); END;',
-    @petrol_name, @new_price
-) AT ZaopatrzenieOracle;
-GO
+--EXECUTE (
+--    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_PRICE(:pertol_name, :new_price); END;',
+--    @petrol_name, @new_price
+--) AT ZaopatrzenieOracle;
+--GO
 
 
-SELECT * FROM dbo.petrol_prices;
-GO
+--SELECT * FROM dbo.petrol_prices;
+--GO
 
 
---Ustawienie punktów za dane paliwo -testowanie
+----Ustawienie punktów za dane paliwo -testowanie
 
-DECLARE @petrol_name varchar(20);
-declare @new_points INT;
+--DECLARE @petrol_name varchar(20);
+--declare @new_points INT;
 
-Set @petrol_name = 'LPG';
-SET @new_points = 3;
+--Set @petrol_name = 'LPG';
+--SET @new_points = 3;
 
-EXECUTE (
-    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_POINTS(:pertol_name, :new_price); END;',
-    @petrol_name, @new_points
-) AT ZaopatrzenieOracle;
-GO
+--EXECUTE (
+--    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_POINTS(:pertol_name, :new_price); END;',
+--    @petrol_name, @new_points
+--) AT ZaopatrzenieOracle;
+--GO
 
 
 --Dodanie transakcji paliwa
@@ -278,6 +363,8 @@ GO
 
 -- Dodanie transakcji produktu -- testowanie
 
+-- Dodanie transakcji produktu -- testowanie
+
 select * from ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PRODUKTY_SPOZYWCZE"
 SELECT * FROM products_stock;
 SELECT * FROM products_prices;
@@ -317,7 +404,7 @@ SELECT * FROM products_prices;
 
 	SET @clientID = 10;
 	SET @productID = 2;
-	SET @amount_set = 3;
+	SET @amount_set = -3;
 
 	EXEC dbo.add_product_transaction
 	@client_ID = @clientID,
@@ -333,7 +420,7 @@ SELECT * FROM products_prices;
 	DECLARE @productID INT;
 	DECLARE @amount_set INT;
 
-	SET @clientID = 225;
+	SET @clientID = 270;
 	SET @productID = 2;
 	SET @amount_set = 3;
 
@@ -364,6 +451,8 @@ SELECT * FROM products_prices;
 
 	SELECT * FROM products_stock;
 
+
+
 	--zamowienie na wiecej produktow niz jest na stanie
 	DECLARE @clientID INT;
 	DECLARE @productID INT;
@@ -380,6 +469,7 @@ SELECT * FROM products_prices;
 
 	SELECT * FROM Transakcje_spozywcze
 	ORDER BY data_transakcji DESC;
+
 
 
 
@@ -564,3 +654,132 @@ SELECT * FROM petrol_stock;
 	EXEC dbo.show_employee_schedule @emp_id = 284;
 
 	select * from harmonogram where ID_pracownika = 284;
+
+
+
+-- Rejestrowanie nowego klienta (register_client)
+
+	EXEC [dbo].[register_client]
+	@name = 'Adrian',
+	@surname = 'Stefanowski',
+	@email = 'adrianstefanowski@gmail.com';
+
+	SELECT * FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."KLIENCI";
+
+
+
+-- Aktualizacja stanu paliwa (update_petrol_stock)
+	
+	--prawidłowe wywołanie
+	DECLARE @petrol_name varchar(40);
+	declare @new_stock INT;
+
+	Set @petrol_name = 'benzyna 95';
+	SET @new_stock = 750;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_STOCK(:petrol_name, :new_stock); END;',
+		@petrol_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM petrol_stock;
+
+
+	--ujemna ilość paliwa
+	DECLARE @petrol_name varchar(40);
+	declare @new_stock INT;
+
+	Set @petrol_name = 'benzyna 95';
+	SET @new_stock = -750;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_STOCK(:petrol_name :new_stock); END;',
+		@petrol_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM petrol_stock;
+
+	--nieprawidłowa nazwa paliwa
+	DECLARE @petrol_name varchar(40);
+	declare @new_stock INT;
+
+	Set @petrol_name = 'aaa';
+	SET @new_stock = 750;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_STOCK(:petrol_name, :new_stock); END;',
+		@petrol_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM petrol_stock;
+
+	--paliwo ponad limit
+	DECLARE @petrol_name varchar(40);
+	declare @new_stock INT;
+
+	Set @petrol_name = 'benzyna 95';
+	SET @new_stock = 1750;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_STOCK(:petrol_name, :new_stock); END;',
+		@petrol_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM petrol_stock;
+
+
+
+-- Aktualizacja stanu produktu (update_product_stock)
+	
+	--prawidłowe wywołanie
+	DECLARE @product_name varchar(40);
+	declare @new_stock INT;
+
+	Set @product_name = 'Hot-dog duzy';
+	SET @new_stock = 25;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PRODUCT_STOCK(:product_name, :new_stock); END;',
+		@product_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_stock;
+
+	--ujemna ilość produktu
+	DECLARE @product_name varchar(40);
+	declare @new_stock INT;
+
+	Set @product_name = 'Hot-dog duzy';
+	SET @new_stock = -25;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PRODUCT_STOCK(:product_name, :new_stock); END;',
+		@product_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_stock;
+	
+	--Nieprawidłowa nazwa produktu
+	DECLARE @product_name varchar(40);
+	declare @new_stock INT;
+
+	Set @product_name = 'bbb';
+	SET @new_stock = 25;
+
+	EXECUTE (
+		'BEGIN ADMINISTRATORORACLE.UPDATE_PRODUCT_STOCK(:product_name, :new_stock); END;',
+		@product_name, @new_stock
+	) AT ZaopatrzenieOracle;
+	GO
+
+	SELECT * FROM products_stock;
+
+
+
+

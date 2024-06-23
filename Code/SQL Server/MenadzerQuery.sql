@@ -212,3 +212,114 @@ SELECT * FROM dbo.products_stock;
 
 	select * from harmonogram where ID_pracownika = 284;
 
+
+
+-- Dodanie transakcji produktu -- testowanie
+
+select * from ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PRODUKTY_SPOZYWCZE"
+SELECT * FROM products_stock;
+SELECT * FROM products_prices;
+
+	--transakcja prawidlowa
+	
+	DECLARE @clientID INT;
+	DECLARE @productID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 10;
+	SET @productID = 2;
+	SET @amount_set = 3;
+
+	EXEC dbo.add_product_transaction
+	@client_ID = @clientID,
+	@product_ID = @productID,
+	@amount = @amount_set
+
+	SELECT * FROM Transakcje_spozywcze
+	ORDER BY data_transakcji DESC;
+
+	SELECT * FROM products_stock;
+	SELECT * FROM products_prices;
+
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM KLIENCI')
+	WHERE ID_klienta = 10;
+
+	--UPDATE ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PRODUKTY_SPOZYWCZE"
+	--SET ILOSC_NA_STANIE = 15
+	--WHERE ID_PRODUKTU = 2;
+
+	--ujemna ilosc produktu
+	DECLARE @clientID INT;
+	DECLARE @productID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 10;
+	SET @productID = 2;
+	SET @amount_set = 3;
+
+	EXEC dbo.add_product_transaction
+	@client_ID = @clientID,
+	@product_ID = @productID,
+	@amount = @amount_set
+
+	SELECT * FROM Transakcje_spozywcze
+	ORDER BY data_transakcji DESC;
+
+
+	--klienta nie ma w bazie danych
+	DECLARE @clientID INT;
+	DECLARE @productID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 225;
+	SET @productID = 2;
+	SET @amount_set = 3;
+
+	EXEC dbo.add_product_transaction
+	@client_ID = @clientID,
+	@product_ID = @productID,
+	@amount = @amount_set
+
+	SELECT * FROM Transakcje_spozywcze
+	ORDER BY data_transakcji DESC;
+
+	--zamowienie klienta od ID ustawionym jako NULL
+	DECLARE @clientID INT;
+	DECLARE @productID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = NULL;
+	SET @productID = 2;
+	SET @amount_set = 3;
+
+	EXEC dbo.add_product_transaction
+	@client_ID = @clientID,
+	@product_ID = @productID,
+	@amount = @amount_set
+
+	SELECT * FROM Transakcje_spozywcze
+	ORDER BY data_transakcji DESC;
+
+	SELECT * FROM products_stock;
+
+	--zamowienie na wiecej produktow niz jest na stanie
+	DECLARE @clientID INT;
+	DECLARE @productID INT;
+	DECLARE @amount_set INT;
+
+	SET @clientID = 10;
+	SET @productID = 2;
+	SET @amount_set = 225;
+
+	EXEC dbo.add_product_transaction
+	@client_ID = @clientID,
+	@product_ID = @productID,
+	@amount = @amount_set
+
+	SELECT * FROM Transakcje_spozywcze
+	ORDER BY data_transakcji DESC;
+
+
+
+
+

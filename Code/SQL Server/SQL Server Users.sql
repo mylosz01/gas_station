@@ -145,5 +145,7 @@ GRANT EXECUTE ON [dbo].[show_statistic_car_wash] TO ZARZAD;
 GRANT EXECUTE ON [dbo].[show_employee_hours] TO ZARZAD;
 GRANT EXECUTE ON [dbo].[show_employee_works_all] TO ZARZAD;
 GRANT EXECUTE ON [dbo].[show_history_of_fuel_price] TO ZARZAD;
+--GRANT EXECUTE ON  TO ZARZAD;
+--GRANT EXECUTE ON  TO ZARZAD;
 
 /*Zarzad*/

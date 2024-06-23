@@ -321,34 +321,232 @@ COMMIT;
 
 CREATE TABLE Zamowienia_Spozywcze
 (
-	ID_zamowienia INTEGER,
+	ID_zamowienia INTEGER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
 	ID_produktu INTEGER,
 	ID_dostawcy INTEGER,
 	data_zamowienia DATE,
 	ilosc INTEGER,
-	koszt_dostawy NUMBER(5,2),
+	koszt_dostawy NUMBER(8,2),
 	CONSTRAINT PK_Zamowienia_spozywcze PRIMARY KEY(ID_zamowienia),
 	CONSTRAINT FK_Zamowienie_spozywczeXProdukt FOREIGN KEY (ID_produktu) REFERENCES Produkty_spozywcze(ID_produktu),
 	CONSTRAINT FK_Zamowienie_spozywczeXTDostawca FOREIGN KEY (ID_dostawcy) REFERENCES Dostawcy_Spozywczy(ID_dostawcy)
 );
 COMMIT;
+--czerwiec
+--jedzenie
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (1,5,'2024-06-02',30,1200.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (2,5,'2024-06-01',30,1200.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (3,2,'2024-05-29',30,1150.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (4,2,'2024-05-28',30,1150.00);
+--napoje
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (12,12,'2024-05-26',30,950.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (13,12,'2024-05-23',60,990.50);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (9,4,'2024-05-22',60,990.50);
+--pepsi co
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (29,11,'2024-05-21',15,1300.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (30,11,'2024-05-20',15,1300.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (10,11,'2024-05-19',30,1300.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (11,11,'2024-05-18',20,1300.00);
+--akcesoria samochodowe
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (18,13,'2024-05-16',60,965.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (6,8,'2024-05-14',25,999.99);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (8,7,'2024-05-06',20,1075.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (5,7,'2024-05-05',30,1075.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (38,9,'2024-05-02',20,1015.90);
+--kwiecien
+--jedzenie
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (1,5,'2024-04-02',30,1200);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (2,5,'2024-04-01',30,1200.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (3,2,'2024-03-29',30,1150.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (4,2,'2024-03-28',30,1150.00);
+--napoje
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (12,12,'2024-03-24',30,950.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (13,12,'2024-03-23',60,990.50);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (9,4,'2024-03-22',60,990.50);
+--pepsi co
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (29,11,'2024-03-21',15,1300);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (30,11,'2024-03-20',15,1300);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (10,11,'2024-03-19',30,1300);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (11,11,'2024-03-18',20,1300);
+--akcesoria samochodowe
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (18,13,'2024-03-16',60,965.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (6,8,'2024-03-14',25,999.99);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (8,7,'2024-03-06',20,1075.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (5,7,'2024-03-05',30,1075.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (38,9,'2024-03-02',20,1015.90);
+--luty
+--jedzenie
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (1,5,'2024-02-02',30,1200);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (2,5,'2024-02-01',30,1200.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (3,2,'2024-01-29',30,1150.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (4,2,'2024-01-28',30,1150.00);
+--napoje
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (12,12,'2024-01-26',30,950.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (13,12,'2024-01-23',60,990.50);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (9,4,'2024-01-22',60,990.50);
+--pepsi co
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (29,11,'2024-01-21',15,1300);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (30,11,'2024-01-20',15,1300);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (10,11,'2024-01-19',30,1300);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (11,11,'2024-01-18',20,1300);
+--akcesoria samochodowe
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (18,13,'2024-01-16',60,965.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (6,8,'2024-01-14',25,999.99);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (8,7,'2024-01-05',20,1075.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (5,7,'2024-01-06',30,1075.00);
+INSERT INTO zamowienia_spozywcze(id_produktu,id_dostawcy,data_zamowienia,ilosc,koszt_dostawy) 
+    VALUES (38,9,'2024-01-02',20,1015.90);
+COMMIT;    
+----Sprawdzenie
+--select zs.id_zamowienia,p.nazwa,d.nazwa from zamowienia_spozywcze zs
+--LEFT JOIN produkty_spozywcze p using(ID_produktu)
+--LEFT JOIN dostawcy_spozywczy d using(ID_dostawcy);
+
+
+
 
 CREATE TABLE Zamowienia_Paliwowe
 (
-	ID_zamowienia INTEGER,
-	ID_paliwa INTEGER,
+	ID_zamowienia INTEGER GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),
+	ID_ceny INTEGER,
 	ID_dostawcy INTEGER,
 	data_zamowienia DATE,
-	ilosc_paliwa NUMBER(5,2),
-	koszt_dostawy NUMBER(5,2),
+	ilosc_paliwa NUMBER(8,2),
+	koszt_dostawy NUMBER(8,2),
 	CONSTRAINT PK_Zamowienia_paliwowe PRIMARY KEY(ID_zamowienia),
-	CONSTRAINT FK_Zamowienie_paliwoweXTyp FOREIGN KEY (ID_paliwa) REFERENCES Paliwa(ID_paliwa) ON DELETE CASCADE,
+	CONSTRAINT FK_Zamowienie_paliwoweXCena FOREIGN KEY (ID_ceny) REFERENCES Historia_Cen_Paliw(ID_ceny) ON DELETE CASCADE,
 	CONSTRAINT FK_Zamowienie_paliwoweXTDostawca FOREIGN KEY (ID_dostawcy) REFERENCES Dostawcy_Paliwowi(ID_dostawcy)
 );
 COMMIT;
 
-select * from paliwa;
+--SPRAWDZENIE
+----ilo?ciowy stan paliwa na stacji
+--select P.ID_PALIWA, TP.NAZWA_paliwa, P.ILOSC_W_LITRACH, P.MAKSYMALNA_ILOSC, hcp.data_ceny from paliwa P
+--LEFT JOIN HISTORIA_CEN_PALIW HCP USING(ID_CENY)
+--LEFT JOIN TYP_PALIWA TP ON HCP.id_typu = tp.id_typu;
+--
+----HISTORIA CEN Z NAZWAMI;
+--SELECT hcp.ID_CENY,tp.nazwa_paliwa,hcp.DATA_CENY,hcp.cena FROM Historia_Cen_Paliw hcp
+--JOIN Typ_Paliwa tp using(ID_typu)
+--WHERE DATA_CENY > '2024-03-01';
 
+
+--CZERWIEC & LIPIEC 2023
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(1,1,'2023-06-17',450,2550.00); --95 450
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(2,1,'2023-06-27',250,1547.50); --98 250
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(3,6,'2023-06-30',150,577.35); --AddBlue 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(4,5,'2023-07-03',480,1234.88); --LPG 480
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(5,2,'2023-07-12',150,999.26); --premium Diesel 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(6,2,'2023-07-18',450,2521.55); --standard diesel 450
+
+--SIERPIEÑ & WRZESIEÑ 2023
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(11,5,'2023-08-11',480,1236.83); --LPG 480
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(12,1,'2023-08-18',250,1637.93); --98 250
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(13,2,'2023-08-22',450,2526.50); --standard Diesel 450
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(16,1,'2023-09-18',450,2460.67); --95 450
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(20,2,'2023-09-29',150,1056.19); --premium diesel 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(22,6,'2023-10-02',150,630.00); --Ad Blue 150 
+
+
+-- PA?DZNIERNIK & LISTOPAD 2023
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(23,2,'2023-10-07',150,2618.88); --standard diesel 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(25,5,'2023-10-24',480,1325.97); --LPG 480
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(27,1,'2023-10-30',450,2435.23); --95 450
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(28,1,'2023-11-02',250,1660.22); --98 250
+
+-- STYCZEÑ
+
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(29,2,'2024-01-11',150,1110.02); --premium diesel 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(30,2,'2024-01-15',450,2579.18); --standard diesel 450
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(31,6,'2024-01-18',150,718.48); --AdBlue 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(32,4,'2024-01-21',450,2478.70); --95 450
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(33,4,'2024-01-25',250,1669.42); --98 250
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(34,5,'2024-01-28',500,1378.75); --LPG 500   
+
+-- MARZEC & KWIECIEÑ        
+
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(41,4,'2024-03-09',150,1183.91); --98 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(42,5,'2024-03-12',400,1163.12); -- LPG 400
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(43,1,'2024-03-15',400,2305.80); --95 400
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(44,2,'2024-05-23',150,1145.80); --premium diesel 150
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(46,3,'2024-04-04',400,2404.36); --standard diesel 400
+INSERT INTO zamowienia_paliwowe(ID_ceny,ID_dostawcy,data_zamowienia,ilosc_paliwa,koszt_dostawy)
+    VALUES(47,6,'2024-04-10',150,791.21); --AddBlue 150 
+COMMIT;
 
 -- Create view to show fuel order history
 CREATE OR REPLACE VIEW show_order_fuel_history

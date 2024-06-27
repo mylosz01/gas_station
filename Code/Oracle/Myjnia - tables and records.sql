@@ -15,7 +15,7 @@ INSERT INTO Programy_mycia(nazwa,cena,opis) VALUES('Premium Max',36.99,
     zabezpieczenie woskiem, dodatkowa pow³oka molekularna, suszenie z podwójnym suszeniem ty³u');
 COMMIT;
 
-SELECT count(*) FROM Programy_mycia;
+SELECT * FROM Programy_mycia;
 
 CREATE TABLE Transakcje_myjni
 (
@@ -93,6 +93,7 @@ LEFT JOIN Programy_Mycia pm USING(ID_programu)
 LEFT JOIN klienci@StacjaPrywatny k USING(ID_klienta);
 
 DROP VIEW Rozszerzone_transakcje_myjni;
+SELECT * FROM Rozszerzone_transakcje_myjni;
 
 --Trigger Instead Of do wprowadzania danych do widoku
 

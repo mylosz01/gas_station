@@ -59,7 +59,7 @@ SELECT * FROM products_prices;
 	SELECT * FROM products_stock;
 	SELECT * FROM products_prices;
 
-	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM KLIENCI')
+	SELECT * FROM OPENQUERY(ZaopatrzenieOracle,'SELECT * FROM ADMINISTRATORORACLE.KLIENCI')
 	WHERE ID_klienta = 10;
 
 	--UPDATE ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PRODUKTY_SPOZYWCZE"
@@ -263,7 +263,7 @@ SELECT * FROM products_prices;
 
 	SET @clientID = 10;
 	SET @petrolID = 5;
-	SET @amount_set = 609;
+	SET @amount_set = 639;
 
 	EXEC dbo.add_petrol_transaction
 	@client_ID = @clientID,

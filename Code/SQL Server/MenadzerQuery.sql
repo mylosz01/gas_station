@@ -22,152 +22,10 @@ SELECT * FROM dbo.products_stock;
 
 
 
---Ustawienie ceny paliwa
-
-DECLARE @petrol_name varchar(20);
-declare @new_price NUMERIC(8,2);
-
-Set @petrol_name = 'LPG';
-SET @new_price = 2.25;
-
-EXECUTE (
-    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_PRICE(:pertol_name, :new_price); END;',
-    @petrol_name, @new_price
-) AT ZaopatrzenieOracle;
-GO
-
 
 SELECT * FROM dbo.petrol_prices;
 GO
 
-
---Ustawienie punktów za dane paliwo -testowanie
-
-DECLARE @petrol_name varchar(20);
-declare @new_points INT;
-
-Set @petrol_name = 'benzyna 95';
-SET @new_points = 5;
-
-EXECUTE (
-    'BEGIN ADMINISTRATORORACLE.UPDATE_PETROL_POINTS(:pertol_name, :new_price); END;',
-    @petrol_name, @new_points
-) AT ZaopatrzenieOracle;
-GO
-
-
-SELECT * FROM dbo.petrol_prices;
-GO
-
-
-
--- Ustalenie nowej ceny produktu (set_product_price)
-	
-	-- prawidlowe wywolanie
-	DECLARE @product_name varchar(40);
-	declare @new_price NUMERIC(5,2);
-
-	Set @product_name = 'Hot-dog duzy';
-	SET @new_price = 9.50;
-
-	EXECUTE (
-		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_PRICE(:product_name, :new_price); END;',
-		@product_name, @new_price
-	) AT ZaopatrzenieOracle;
-	GO
-
-	SELECT * FROM products_prices;
-
-	--ujemna cena
-	DECLARE @product_name varchar(40);
-	declare @new_price NUMERIC(5,2);
-
-	Set @product_name = 'Hot-dog duzy';
-	SET @new_price = -8.50;
-
-	EXECUTE (
-		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_PRICE(:product_name, :new_price); END;',
-		@product_name, @new_price
-	) AT ZaopatrzenieOracle;
-	GO
-
-	SELECT * FROM products_prices;
-
-	--produkt o danej nazwie nie istnieje
-	DECLARE @product_name varchar(40);
-	declare @new_price NUMERIC(5,2);
-
-	Set @product_name = 'aaa';
-	SET @new_price = 8.50;
-
-	EXECUTE (
-		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_PRICE(:product_name, :new_price); END;',
-		@product_name, @new_price
-	) AT ZaopatrzenieOracle;
-	GO
-
-	SELECT * FROM products_prices;
-
-	--zmiana ceny wieksza niz 50% poprzedniej wartosci
-	DECLARE @product_name varchar(40);
-	declare @new_price NUMERIC(5,2);
-
-	Set @product_name = 'Hot-dog duzy';
-	SET @new_price = 17.99;
-
-	EXECUTE (
-		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_PRICE(:product_name, :new_price); END;',
-		@product_name, @new_price
-	) AT ZaopatrzenieOracle;
-	GO
-
-	SELECT * FROM products_prices;
-
-
--- Ustalenie nowej liczby punktow dla produktu(set_product_points)
-	
-	--prawidlowe wywolanie
-	DECLARE @product_name varchar(40);
-	declare @new_points INT;
-
-	Set @product_name = 'Hot-dog duzy';
-	SET @new_points = 250;
-
-	EXECUTE (
-		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_POINTS(:product_name, :new_points); END;',
-		@product_name, @new_points
-	) AT ZaopatrzenieOracle;
-	GO
-
-	SELECT * FROM products_prices;
-
-	--liczba punktow ujemna
-	DECLARE @product_name varchar(40);
-	declare @new_points INT;
-
-	Set @product_name = 'Hot-dog duzy';
-	SET @new_points = -130;
-
-	EXECUTE (
-		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_POINTS(:product_name, :new_points); END;',
-		@product_name, @new_points
-	) AT ZaopatrzenieOracle;
-	GO
-
-	SELECT * FROM products_prices;
-	
-	--produkt nie istnieje
-	DECLARE @product_name varchar(40);
-	declare @new_points INT;
-
-	Set @product_name = 'aaa';
-	SET @new_points = 270;
-
-	EXECUTE (
-		'BEGIN ADMINISTRATORORACLE.SET_PRODUCT_POINTS(:product_name, :new_points); END;',
-		@product_name, @new_points
-	) AT ZaopatrzenieOracle;
-	GO
 
 	SELECT * FROM products_prices;
 
@@ -175,10 +33,10 @@ GO
 		
 		--prawidłowe wywołanie
 		EXEC [dbo].[hire_employee]
-		@emp_ID = 225,
-		@name = 'Alina',
-		@surname = 'Nowak',
-		@phone_number = '428624798',
+		@emp_ID = 227,
+		@name = 'Krystian',
+		@surname = 'Zamojski',
+		@phone_number = '652901123',
 		@salary = 15;
 
 		SELECT * FROM dbo.show_employees;
@@ -230,9 +88,9 @@ GO
 
 -- Usuwanie pracownika ze zmiany
 	-- prawidłowe ID zmiany
-	EXEC dbo.delete_employee_shift @shift_id = 48;
+	EXEC dbo.delete_employee_shift @shift_id = 46;
 
-	SELECT * FROM HARMONOGRAM WHERE ID_WPISU =48;
+	SELECT * FROM HARMONOGRAM WHERE ID_WPISU =46;
 
 	-- nieprawidłowe ID zmiany
 	EXEC dbo.delete_employee_shift @shift_id = 48;
@@ -242,9 +100,9 @@ GO
 -- Wyświetlanie zmian danego pracownika
 	
 	-- pracownik istnieje
-	EXEC dbo.show_employee_schedule @emp_id = 2;
+	EXEC dbo.show_employee_schedule @emp_id = 15;
 
-	select * from harmonogram where ID_pracownika = 2;
+	select * from harmonogram where ID_pracownika = 15;
 
 	--pracownik nie istnieje
 	EXEC dbo.show_employee_schedule @emp_id = 284;

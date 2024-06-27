@@ -78,6 +78,7 @@ VALUES
     (15, '2024-06-27 18:00:00', DATEADD(HOUR, 8, '2024-06-27 18:00:00')), -- Pracownik 15, zmiana od 18:00 do 02:00
     (15, '2024-06-28 18:00:00', DATEADD(HOUR, 8, '2024-06-28 18:00:00')); -- Pracownik 15, zmiana od 18:00 do 02:00
 
+
 -- function to check if emp can take shift
 -- returns -1 no emp, 0 can't shift, 1 good
 CREATE OR ALTER FUNCTION is_shift_valid(

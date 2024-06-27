@@ -7,10 +7,13 @@ CREATE TABLE Dostawcy_Paliwowi
 	CONSTRAINT PK_Dostawcy_Paliwowi PRIMARY KEY(ID_dostawcy)
 );
 COMMIT;
+
 INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Rafineria w Plocku','Polska');
 INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Rafineria w Litvinowie','Czechy');
 INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Rafineria w Kralupach nad Vltavou','Czechy');
 INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Rafineria w Mozejkach','Litwa');
+INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('PGNiG S.A.','Polska');
+INSERT INTO Dostawcy_Paliwowi(nazwa,kraj) VALUES('Yara International ASA','Norwegia');
 COMMIT;
 
 CREATE TABLE Dostawcy_Spozywczy
@@ -21,6 +24,7 @@ CREATE TABLE Dostawcy_Spozywczy
 	CONSTRAINT PK_Dostawcy_Spozywczy PRIMARY KEY(ID_dostawcy)
 );
 COMMIT;
+
 INSERT INTO Dostawcy_Spozywczy(nazwa,kraj) VALUES('WML','Polska');
 INSERT INTO Dostawcy_Spozywczy(nazwa,kraj) VALUES('Nowel','Polska'); --pieczywo mrozone
 INSERT INTO Dostawcy_Spozywczy(nazwa,kraj) VALUES('Stokson','Polska'); --piekarnia
@@ -59,7 +63,7 @@ INSERT INTO Produkty_spozywcze(nazwa,ilosc_na_stanie,cena_jednostkowa,ilosc_punk
 INSERT INTO Produkty_spozywcze(nazwa,ilosc_na_stanie,cena_jednostkowa,ilosc_punktow)
     VALUES('Zapiekanka',15,10.99,110);    
 INSERT INTO Produkty_spozywcze(nazwa,ilosc_na_stanie,cena_jednostkowa,ilosc_punktow)
-    VALUES('Gasnica',10,6,40,75);
+    VALUES('Gasnica',10,6.40,75);
 INSERT INTO Produkty_spozywcze(nazwa,ilosc_na_stanie,cena_jednostkowa,ilosc_punktow)
     VALUES('Chusteczki do kokpitu',45,8.49,90);
     ---
@@ -148,6 +152,7 @@ INSERT INTO Typ_Paliwa(nazwa_paliwa) VALUES('LPG');
 INSERT INTO Typ_Paliwa(nazwa_paliwa) VALUES('Add Blue');
 COMMIT;
 
+
 CREATE TABLE Historia_cen_paliw
 (
 	ID_ceny INTEGER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
@@ -159,7 +164,7 @@ CREATE TABLE Historia_cen_paliw
 );
 COMMIT;
 
-INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,TO_TIMESTAMP('2024-01-15 10:45:30','YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS'),6.23);
+INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,TO_TIMESTAMP('2024-01-15 10:45:30','YYYY-MM-DD HH24:MI:SS'),6.23);
 INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,TO_TIMESTAMP('2024-02-28 14:22:10','YYYY-MM-DD HH24:MI:SS'),6.48);
 INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,TO_TIMESTAMP('2024-03-10 09:15:55','YYYY-MM-DD HH24:MI:SS'),6.35);
 INSERT INTO Historia_cen_paliw(ID_typu,data_ceny,cena) VALUES(1,TO_TIMESTAMP('2024-04-21 18:05:42','YYYY-MM-DD HH24:MI:SS'),6.57);

@@ -86,6 +86,8 @@
      
      GRANT EXECUTE ON ADMINISTRATORORACLE.update_petrol_points TO ZarzadOracle;
      GRANT EXECUTE ON ADMINISTRATORORACLE.update_petrol_price TO ZarzadOracle;
+     GRANT EXECUTE ON ADMINISTRATORORACLE.set_product_points TO ZarzadOracle;
+     GRANT EXECUTE ON ADMINISTRATORORACLE.set_product_price TO ZarzadOracle;
      
      /*Zarzad*/
      

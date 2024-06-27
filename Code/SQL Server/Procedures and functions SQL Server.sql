@@ -153,7 +153,8 @@ BEGIN
 END;
 
 
-CREATE PROCEDURE make_product_order(
+
+CREATE OR ALTER PROCEDURE make_product_order(
 @product_name VARCHAR(40),
 @provider_ID INT,
 @amount INT,
@@ -167,7 +168,7 @@ BEGIN
 	
 	IF @amount < 0
 	BEGIN
-		RAISERROR('Ilosc paliwa nie moze byc wartoscia ujemna',16,1);
+		RAISERROR('Ilosc produktow nie moze byc wartoscia ujemna',16,1);
 		RETURN;
 	END
 

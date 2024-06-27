@@ -32,7 +32,7 @@ EXEC master.dbo.sp_addlinkedserver
     @provider = N'OraOLEDB.Oracle', --sterownik OLEDB który znajdziemy w server object
     @srvproduct = N'Oracle',
 	@datasrc = N'(DESCRIPTION =
-    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.0.14)(PORT = 1521))
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.162.166)(PORT = 1521))
     (CONNECT_DATA =
       (SERVER = DEDICATED)
       (SID = orcl)
@@ -102,3 +102,5 @@ GO
 SELECT * 
 FROM ZaopatrzenieOracle.."ADMINISTRATORORACLE"."PALIWA";
 go
+
+SELECT * FROM OPENQUERY(ZaopatrzenieOracle, 'SELECT * FROM KLIENCI');

@@ -39,14 +39,6 @@ GO
 
 GRANT SELECT ON dbo.show_employees TO Menadzer;
 GO
-GRANT SELECT ON dbo.petrol_prices TO Menadzer;
-GO
-GRANT SELECT ON [dbo].[petrol_stock] TO Menadzer;
-GO
-GRANT SELECT ON [dbo].[products_prices] TO Menadzer;
-GO
-GRANT SELECT ON [dbo].[products_stock] TO Menadzer;
-GO
 
 GRANT EXECUTE ON [dbo].[hire_employee] TO Menadzer;
 GRANT EXECUTE ON [dbo].[add_shift_employee] TO Menadzer;
